@@ -1,13 +1,14 @@
 import WebSocket from 'ws'
 
+let clients: WebSocket[] = []
+
 export const wsServices = {
-	async wsHandler (socket: WebSocket) {
-		let clients: WebSocket[] = []
+	async wsHandler(socket: WebSocket) {
 		clients.push(socket)
 		socket.on('message', (message) => {
-			socket.send('asd')
 			clients.forEach(client => {
 				if (client !== socket) {
+					console.log(client !== socket)
 					client.send(`${message}`)
 				}
 			})
@@ -15,5 +16,5 @@ export const wsServices = {
 		socket.onclose = () => {
 			clients = clients.filter(client => client !== socket)
 		}
-	}
+	},
 }
