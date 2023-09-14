@@ -1,11 +1,13 @@
-import {Space, Typography} from 'antd'
+import {Button, Space, Typography} from 'antd'
 import Title from 'antd/es/typography/Title'
 import {useEffect, useState} from 'react'
 import {EStatus} from './types/enum/Status.ts'
 import {readyStateHandler} from './utils/readyStateHandler.ts'
 
+const WS_URL = 'wss://localhost:5005'
+
 export const Chat = () => {
-	const ws = new WebSocket('ws://localhost:5005')
+	const [socket, setSocket] = useState<WebSocket | null>(null)
 	const [status, setStatus] = useState<EStatus>(EStatus.connecting)
 	const [chatMessage, setChatMessage] = useState<string>('')
 	const [readyState, setReadyState] = useState<number>(0)
@@ -14,17 +16,31 @@ export const Chat = () => {
 		setStatus(readyStateHandler(readyState))
 	}, [readyState])
 
-	ws.onopen = () => setReadyState(ws.OPEN)
-	ws.onclose = () => setReadyState(ws.CLOSED)
+	useEffect(() => {
+		const ws = new WebSocket(WS_URL)
+		setSocket(ws)
+		if (socket) {
+			socket.onopen = () => {
+				socket.onmessage = (message) => {
+					console.log('asd')
+					setChatMessage(prevMsg => prevMsg + ' ' + message.data)
+				}
+				setReadyState(socket.OPEN)
+			}
+			ws.onclose = () => {
+				console.log('closed')
+				setReadyState(socket.CLOSED)
+			}
+		}
 
-	ws.onmessage = (message) => {
-		setChatMessage(prevMsg => prevMsg + ' ' + message.data)
-	}
+		return () => socket!.close()
+	}, [])
 
 	return (
 		<Space>
 			<Title>Chat status: {status}</Title>
 			<Typography>{chatMessage}</Typography>
+			<Button onClick={() => socket!.send('asd')}>send</Button>
 		</Space>
 	)
 }

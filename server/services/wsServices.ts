@@ -5,6 +5,7 @@ export const wsServices = {
 		let clients: WebSocket[] = []
 		clients.push(socket)
 		socket.on('message', (message) => {
+			socket.send('asd')
 			clients.forEach(client => {
 				if (client !== socket) {
 					client.send(`${message}`)
