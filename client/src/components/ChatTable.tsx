@@ -1,9 +1,29 @@
 import {Table} from 'antd'
+import {FC} from 'react'
 
-export const ChatTable = () => {
+interface Props {
+	chatMessages: IWsMessage[]
+}
 
+export const ChatTable: FC<Props> = ({chatMessages}) => {
+	const columns = [
+		{
+			title: 'User',
+			dataIndex: 'user',
+			key: 'user',
+		},
+		{
+			title: 'Message',
+			dataIndex: 'message',
+			key: 'message',
+		},
+		{
+			title: 'Date',
+			dataIndex: 'date',
+			key: 'date',
+		}]
 
 	return (
-		<Table/>
+		<Table columns={columns} dataSource={chatMessages} pagination={false} />
 	)
 }

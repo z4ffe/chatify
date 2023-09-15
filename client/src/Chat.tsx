@@ -1,6 +1,7 @@
-import {Button, Space, Typography} from 'antd'
+import {Button, Input, Space} from 'antd'
 import Title from 'antd/es/typography/Title'
-import {useEffect, useState} from 'react'
+import {SyntheticEvent, useEffect, useState} from 'react'
+import {ChatTable} from './components/ChatTable.tsx'
 import {EStatus} from './types/enum/Status.ts'
 import {readyStateHandler} from './utils/readyStateHandler.ts'
 
@@ -9,8 +10,10 @@ const WS_URL = 'ws://localhost:5005/'
 export const Chat = () => {
 	const [socket, setSocket] = useState<WebSocket | null>(null)
 	const [status, setStatus] = useState<EStatus>(EStatus.connecting)
-	const [chatMessage, setChatMessage] = useState<string>('')
+	const [chatMessages, setChatMessages] = useState<IWsMessage[]>([])
 	const [readyState, setReadyState] = useState<number>(0)
+	const [input, setInput] = useState<string>('')
+	const [user, setUser] = useState<string>('Paul')
 
 	useEffect(() => {
 		const ws = new WebSocket(WS_URL)
@@ -32,8 +35,8 @@ export const Chat = () => {
 			socket.onopen = () => {
 				console.log('open')
 				socket.onmessage = (message) => {
-					console.log('message')
-					setChatMessage(prevMsg => prevMsg + ' ' + message.data)
+					const parsedResponse: IWsMessage = JSON.parse(message.data)
+					setChatMessages(prevState => [...prevState, parsedResponse])
 				}
 				setReadyState(socket.OPEN)
 			}
@@ -44,11 +47,22 @@ export const Chat = () => {
 		}
 	}, [socket])
 
+	const handleInput = (event: SyntheticEvent<HTMLInputElement>) => {
+		const str = event.currentTarget.value
+		setInput(str)
+	}
+
+	const handleSendMsg = () => {
+		const json = JSON.stringify({user: user, message: input})
+		socket?.send(json)
+	}
+
 	return (
-		<Space>
+		<Space direction='vertical'>
 			<Title>Chat status: {status}</Title>
-			<Typography>{chatMessage}</Typography>
-			<Button onClick={() => socket!.send('asd')}>send</Button>
+			<ChatTable chatMessages={chatMessages} />
+			<Input onChange={handleInput} />
+			<Button onClick={handleSendMsg}>send</Button>
 		</Space>
 	)
 }
