@@ -1,14 +1,21 @@
+import {ConfigProvider} from 'antd'
 import {Provider} from 'react-redux'
-import {MainLayout} from './layout/mainLayout.tsx'
-import {Home} from './pages/Home.tsx'
+import {BrowserRouter} from 'react-router-dom'
+import {MainLayout} from './layout/MainLayout.tsx'
+import {Router} from './routes/Router.tsx'
 import store from './store/store.ts'
+import {theme} from './theme/theme.ts'
 
 export const Chatify = () => {
 	return (
-		<Provider store={store}>
-			<MainLayout>
-				<Home />
-			</MainLayout>
-		</Provider>
+		<BrowserRouter>
+			<Provider store={store}>
+				<ConfigProvider theme={theme}>
+					<MainLayout>
+						<Router />
+					</MainLayout>
+				</ConfigProvider>
+			</Provider>
+		</BrowserRouter>
 	)
 }

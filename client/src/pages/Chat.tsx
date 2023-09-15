@@ -1,22 +1,21 @@
 import {Button, Input, Space} from 'antd'
-import Title from 'antd/es/typography/Title'
 import {SyntheticEvent, useEffect, useState} from 'react'
 import {ChatTable} from '../components/ChatTable.tsx'
-import {EStatus} from '../types/enum/Status.ts'
+import {CONSTANTS} from '../constants/constants.ts'
+import {useAppDispatch, useAppSelector} from '../lib/redux/typedHooks.ts'
+import {globalActions} from '../store/global/globalSlice.ts'
 import {readyStateHandler} from '../utils/readyStateHandler.ts'
 
-const WS_URL = 'ws://localhost:5005/'
-
-export const Home = () => {
+export const Chat = () => {
+	const dispatch = useAppDispatch()
+	const {user} = useAppSelector(state => state.globalReducer)
 	const [socket, setSocket] = useState<WebSocket | null>(null)
-	const [status, setStatus] = useState<EStatus>(EStatus.connecting)
 	const [chatMessages, setChatMessages] = useState<IWsMessage[]>([])
 	const [readyState, setReadyState] = useState<number>(0)
 	const [input, setInput] = useState<string>('')
-	const [user, setUser] = useState<string>('Paul')
 
 	useEffect(() => {
-		const ws = new WebSocket(WS_URL)
+		const ws = new WebSocket(CONSTANTS.WS_URL)
 		setSocket(ws)
 		return () => {
 			if (socket) {
@@ -26,14 +25,14 @@ export const Home = () => {
 	}, [])
 
 	useEffect(() => {
-		setStatus(readyStateHandler(readyState))
+		const status = readyStateHandler(readyState)
+		dispatch(globalActions.changeNetworkStatus(status))
 	}, [readyState])
 
 
 	useEffect(() => {
 		if (socket) {
 			socket.onopen = () => {
-				console.log('open')
 				socket.onmessage = (message) => {
 					const parsedResponse: IWsMessage = JSON.parse(message.data)
 					setChatMessages(prevState => [...prevState, parsedResponse])
@@ -41,7 +40,6 @@ export const Home = () => {
 				setReadyState(socket.OPEN)
 			}
 			socket.onclose = () => {
-				console.log('closed')
 				setReadyState(socket.CLOSED)
 			}
 		}
@@ -53,15 +51,17 @@ export const Home = () => {
 	}
 
 	const handleSendMsg = () => {
-		const json = JSON.stringify({user: user, message: input})
-		socket?.send(json)
+		if (input.length) {
+			const json = JSON.stringify({user, message: input})
+			socket?.send(json)
+			setInput('')
+		}
 	}
 
 	return (
 		<Space direction='vertical'>
-			<Title>Chat status: {status}</Title>
 			<ChatTable chatMessages={chatMessages} />
-			<Input onChange={handleInput} />
+			<Input onChange={handleInput} value={input} />
 			<Button onClick={handleSendMsg}>send</Button>
 		</Space>
 	)

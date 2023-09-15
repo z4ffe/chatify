@@ -1,10 +1,11 @@
 import {configureStore} from '@reduxjs/toolkit'
-import globalSlice from './global/globalSlice.ts'
+import {globalReducer} from './global/globalSlice.ts'
 
 const store = configureStore({
 	reducer: {
-		globalReducer: globalSlice,
+		globalReducer,
 	},
 })
 
 export default store
+export type RootState = ReturnType<typeof store.getState>
