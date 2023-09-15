@@ -1,13 +1,13 @@
 import {Button, Input, Space} from 'antd'
 import Title from 'antd/es/typography/Title'
 import {SyntheticEvent, useEffect, useState} from 'react'
-import {ChatTable} from './components/ChatTable.tsx'
-import {EStatus} from './types/enum/Status.ts'
-import {readyStateHandler} from './utils/readyStateHandler.ts'
+import {ChatTable} from '../components/ChatTable.tsx'
+import {EStatus} from '../types/enum/Status.ts'
+import {readyStateHandler} from '../utils/readyStateHandler.ts'
 
 const WS_URL = 'ws://localhost:5005/'
 
-export const Chat = () => {
+export const Home = () => {
 	const [socket, setSocket] = useState<WebSocket | null>(null)
 	const [status, setStatus] = useState<EStatus>(EStatus.connecting)
 	const [chatMessages, setChatMessages] = useState<IWsMessage[]>([])

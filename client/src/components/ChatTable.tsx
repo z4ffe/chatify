@@ -18,7 +18,7 @@ export const ChatTable: FC<Props> = ({chatMessages}) => {
 			key: 'message',
 		},
 		{
-			title: 'Date',
+			title: 'Time',
 			dataIndex: 'date',
 			key: 'date',
 		}]

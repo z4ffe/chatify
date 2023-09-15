@@ -1,6 +1,8 @@
 import ReactDOM from 'react-dom/client'
-import {Chat} from './Chat.tsx'
+import '../src/assets/styles/index.scss'
+import {Chatify} from './Chatify.tsx'
+
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-    <Chat />
+	<Chatify />,
 )

@@ -14,7 +14,7 @@ export const wsServices = {
 			const jsonMsg = JSON.parse(message) as IWSMessage
 			const responseMsg = {
 				...jsonMsg,
-				date: new Date().toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit', hourCycle: 'h24'}),
+				date: new Date().toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit', hourCycle: 'h24', second: '2-digit'}),
 			}
 			const response = JSON.stringify(responseMsg)
 			clients.forEach(client => {
