@@ -15,6 +15,7 @@ export const wsServices = {
 			const responseMsg = {
 				...jsonMsg,
 				date: new Date().toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit', hourCycle: 'h24', second: '2-digit'}),
+				clients: clients.length,
 			}
 			const response = JSON.stringify(responseMsg)
 			clients.forEach(client => {

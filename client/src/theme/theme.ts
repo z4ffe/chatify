@@ -2,9 +2,9 @@ import {ThemeConfig} from 'antd'
 
 export const theme: ThemeConfig = {
 	token: {
-		colorPrimary: '#000000',
-		borderRadius: 41,
-		colorBgContainer: '#f6ffed',
+		colorPrimary: '#bbbbbb',
+		borderRadius: 5,
+		colorBgContainer: '#fff',
 		fontFamily: 'Montserrat',
 	},
 	components: {

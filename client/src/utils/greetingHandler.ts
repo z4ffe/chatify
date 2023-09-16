@@ -1,22 +1,17 @@
-enum EGrettings {
-	'morning' = 'Good morning',
-	'day' = 'Good day',
-	'evening' = 'Good evening',
-	'night' = 'Good night'
-}
+import {EGreetings} from '../types/enum/Greetings.ts'
 
-export const greetingHandler = (): EGrettings => {
+export const greetingHandler = (): EGreetings => {
 	const currentHour = new Date().getHours()
 	switch (true) {
 		case(currentHour < 9):
-			return EGrettings.morning
+			return EGreetings.morning
 		case(currentHour > 9 && currentHour < 17):
-			return EGrettings.day
+			return EGreetings.day
 		case(currentHour > 17 && currentHour < 23):
-			return EGrettings.evening
+			return EGreetings.evening
 		case(currentHour > 9 && currentHour < 0):
-			return EGrettings.night
+			return EGreetings.night
 		default:
-			return EGrettings.day
+			return EGreetings.day
 	}
 }
