@@ -2,6 +2,7 @@ import {Button, Input, Space} from 'antd'
 import {SyntheticEvent, useEffect, useState} from 'react'
 import {ChatTable} from '../components/ChatTable.tsx'
 import {CONSTANTS} from '../constants/constants.ts'
+import {wsEvents} from '../constants/wsEvents.ts'
 import {useAppDispatch, useAppSelector} from '../lib/redux/typedHooks.ts'
 import {globalActions} from '../store/global/globalSlice.ts'
 import {readyStateHandler} from '../utils/readyStateHandler.ts'
@@ -34,6 +35,7 @@ export const Chat = () => {
 		if (socket) {
 			socket.onopen = () => {
 				socket.onmessage = (message) => {
+					console.log(message)
 					const parsedResponse: IWsMessage = JSON.parse(message.data)
 					setChatMessages(prevState => [...prevState, parsedResponse])
 				}
@@ -50,9 +52,22 @@ export const Chat = () => {
 		setInput(str)
 	}
 
+	useEffect(() => {
+		setTimeout(() => {
+			socket?.send(JSON.stringify({event: wsEvents.onlineUsers}))
+		}, 5000)
+	}, [])
+
 	const handleSendMsg = () => {
 		if (input.length) {
-			const json = JSON.stringify({user, message: input})
+			const message = {
+				event: wsEvents.message,
+				data: {
+					user,
+					message: input,
+				},
+			}
+			const json = JSON.stringify(message)
 			socket?.send(json)
 			setInput('')
 		}
