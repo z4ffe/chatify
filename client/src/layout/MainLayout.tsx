@@ -7,7 +7,7 @@ export const MainLayout: FC<PropsWithChildren> = ({children}) => {
 	const showHeader = user ? <Header /> : null
 
 	return (
-		<div style={{display: 'flex', flexDirection: 'column', width: '100%', maxWidth: '1920px', height: '100%'}}>
+		<div style={{display: 'flex', flexDirection: 'column', width: '80%', maxWidth: '1920px', height: '100%', margin: '0 auto'}}>
 			{showHeader}
 			{children}
 		</div>

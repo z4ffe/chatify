@@ -5,7 +5,6 @@ export const theme: ThemeConfig = {
 		colorPrimary: '#bbbbbb',
 		borderRadius: 5,
 		colorBgContainer: '#fff',
-		fontFamily: 'Montserrat',
 	},
 	components: {
 		Typography: {

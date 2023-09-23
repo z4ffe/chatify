@@ -3,4 +3,5 @@ export const CONSTANTS = {
 	TITLE: 'Chatify',
 	TITLE_LOGIN_WINDOW: 'PLEASE LOGIN',
 	JOIN_CHAT_BUTTON: 'Join chat',
+	NICKNAME_PLACEHOLDER: 'Enter your nickname',
 }

@@ -2,7 +2,7 @@ import Title from 'antd/es/typography/Title'
 import {Navigate, Route, Routes} from 'react-router-dom'
 import {useAppSelector} from '../lib/redux/typedHooks.ts'
 import {Chat} from '../pages/Chat.tsx'
-import {Login} from '../pages/Login.tsx'
+import {Login} from '../pages/Login/Login.tsx'
 
 export const Router = () => {
 	const user = useAppSelector(state => state.globalReducer.user)
