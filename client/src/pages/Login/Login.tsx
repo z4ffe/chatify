@@ -1,25 +1,23 @@
 import {WechatOutlined} from '@ant-design/icons'
+import {zodResolver} from '@hookform/resolvers/zod'
 import {Button, Form, Input} from 'antd'
 import Title from 'antd/es/typography/Title'
-import {Controller, useForm} from 'react-hook-form'
+import {Controller, useForm, useWatch} from 'react-hook-form'
 import {CONSTANTS} from '../../constants/constants.ts'
 import {useAppDispatch} from '../../lib/redux/typedHooks.ts'
 import {globalActions} from '../../store/global/globalSlice.ts'
+import {loginSchema, loginSchemaType} from '../../validation/loginSchema.ts'
 import styles from './Login.module.scss'
-
-type LoginForm = {
-	userName: string
-}
 
 export const Login = () => {
 	const dispatch = useAppDispatch()
-	const {handleSubmit, control, reset} = useForm<LoginForm>({
-		defaultValues: {
-			userName: '',
-		},
+	const {handleSubmit, control, reset, formState: {errors}} = useForm<loginSchemaType>({
+		defaultValues: {userName: ''},
+		resolver: zodResolver(loginSchema),
 	})
+	const userNameField = useWatch({control: control, name: 'userName'})
 
-	const submitForm = (values: LoginForm) => {
+	const submitForm = (values: loginSchemaType) => {
 		if (values.userName) {
 			dispatch(globalActions.setUserName(values.userName))
 			return reset()
@@ -36,16 +34,15 @@ export const Login = () => {
 				</div>
 			</div>
 			<div className={styles.loginForm}>
-				<Title>{CONSTANTS.TITLE_LOGIN_WINDOW}</Title>
-				<div>
-					<Form onFinish={handleSubmit(submitForm)}>
-						<Form.Item required label={''}>
+				<Title className={styles.formTitle}>{CONSTANTS.TITLE_LOGIN_WINDOW}</Title>
+				<div className={styles.formWrapper}>
+					<Form className={styles.form} onFinish={handleSubmit(submitForm)}>
+						<Form.Item required label='' help={errors.userName?.message} validateStatus={errors.userName ? 'error' : ''}>
 							<Controller control={control} name='userName' render={({field}) => (
-								<Input {...field} placeholder={CONSTANTS.NICKNAME_PLACEHOLDER} />
-							)}>
-							</Controller>
+								<Input {...field} placeholder={CONSTANTS.NICKNAME_PLACEHOLDER} className={styles.nameInput} />
+							)} />
 						</Form.Item>
-						<Button htmlType='submit'>{CONSTANTS.JOIN_CHAT_BUTTON}</Button>
+						<Button disabled={!userNameField.length} className={styles.submitButton} htmlType='submit'>{CONSTANTS.JOIN_CHAT_BUTTON}</Button>
 					</Form>
 				</div>
 			</div>
