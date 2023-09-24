@@ -1,5 +1,5 @@
 import {FC, PropsWithChildren} from 'react'
-import {Header} from '../components/Header.tsx'
+import {Header} from '../components/Header/Header.tsx'
 import {useAppSelector} from '../lib/redux/typedHooks.ts'
 
 export const MainLayout: FC<PropsWithChildren> = ({children}) => {

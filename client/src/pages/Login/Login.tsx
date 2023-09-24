@@ -51,7 +51,7 @@ export const Login = () => {
 					<Form className={styles.form} onFinish={handleSubmit(submitForm)}>
 						<Form.Item required label='' help={errors.userName?.message} validateStatus={errors.userName ? 'error' : ''}>
 							<Controller control={control} name='userName' render={({field}) => (
-								<Input {...field} placeholder={CONSTANTS.NICKNAME_PLACEHOLDER} className={styles.nameInput} />
+								<Input {...field} autoFocus placeholder={CONSTANTS.NICKNAME_PLACEHOLDER} className={styles.nameInput} />
 							)} />
 						</Form.Item>
 						<Button disabled={!userNameField.length} className={styles.submitButton} htmlType='submit'>{CONSTANTS.JOIN_CHAT_BUTTON}</Button>

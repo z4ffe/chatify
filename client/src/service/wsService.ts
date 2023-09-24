@@ -1,4 +1,3 @@
-import {Dispatch, SetStateAction} from 'react'
 import {wsEvents} from '../constants/wsEvents.ts'
 import {globalActions} from '../store/global/globalSlice.ts'
 import store from '../store/store.ts'
@@ -9,14 +8,15 @@ export class WsService {
 	constructor(private socket: WebSocket) {
 	}
 
-	openConnection(setMessage: Dispatch<SetStateAction<WSMsgData[]>>) {
+	openConnection(handleMessage: (data: WSMsgData) => void) {
 		this.socket.onopen = () => {
 			this.socket.onmessage = (message) => {
 				const parsedResponse: WSMsgData = JSON.parse(message.data)
+				console.log(parsedResponse)
 				if (parsedResponse.event === 'onlineUsers') {
 					store.dispatch(globalActions.setOnlineUsers(parsedResponse.data.onlineUsers))
 				} else {
-					setMessage(prevState => [...prevState, parsedResponse])
+					handleMessage(parsedResponse)
 				}
 			}
 			store.dispatch(globalActions.changeNetworkStatus(this.socket.OPEN))

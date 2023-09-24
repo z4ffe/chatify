@@ -1,6 +1,6 @@
-import {Button, Input, Space} from 'antd'
+import {Button, Input} from 'antd'
 import {SyntheticEvent, useEffect, useState} from 'react'
-import {ChatTable} from '../components/ChatTable.tsx'
+import {ChatTable} from '../components/ChatTable/ChatTable.tsx'
 import {CONSTANTS} from '../constants/constants.ts'
 import {useAppSelector} from '../lib/redux/typedHooks.ts'
 import {WsService} from '../service/wsService.ts'
@@ -12,15 +12,23 @@ export const Chat = () => {
 	const [chatMessages, setChatMessages] = useState<WSMsgData[]>([])
 	const [input, setInput] = useState<string>('')
 
+	console.log(chatMessages)
+
 	useEffect(() => {
 		const ws = new WebSocket(CONSTANTS.WS_URL)
-		const wsInst = new WsService(ws)
-		wsInst.openConnection(setChatMessages)
-		setWsInstance(wsInst)
+		const wsService = new WsService(ws)
+		wsService.openConnection(handleMessage)
+		setWsInstance(wsService)
 		document.title = `Chatify: ${user}`
-		return wsInst.closeConnection()
+		return () => {
+			wsService.closeConnection()
+		}
 	}, [])
 
+
+	const handleMessage = (data: WSMsgData) => {
+		setChatMessages(prevState => [...prevState, data])
+	}
 
 	const handleInput = (event: SyntheticEvent<HTMLInputElement>) => {
 		setInput(event.currentTarget.value)
@@ -32,10 +40,10 @@ export const Chat = () => {
 	}
 
 	return (
-		<Space direction='vertical'>
+		<div>
 			<ChatTable chatMessages={chatMessages} />
-			<Input onChange={handleInput} value={input} />
+			<Input autoFocus onChange={handleInput} value={input} />
 			<Button onClick={handleSendMsg}>send</Button>
-		</Space>
+		</div>
 	)
 }

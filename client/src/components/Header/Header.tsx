@@ -1,8 +1,8 @@
 import {Space, Typography} from 'antd'
 import Title from 'antd/es/typography/Title'
-import {CONSTANTS} from '../constants/constants.ts'
-import {useAppSelector} from '../lib/redux/typedHooks.ts'
-import {greetingHandler} from '../utils/greetingHandler.ts'
+import {CONSTANTS} from '../../constants/constants.ts'
+import {useAppSelector} from '../../lib/redux/typedHooks.ts'
+import {greetingHandler} from '../../utils/greetingHandler.ts'
 
 export const Header = () => {
 	const {user, onlineUsers, status} = useAppSelector(state => state.globalReducer)

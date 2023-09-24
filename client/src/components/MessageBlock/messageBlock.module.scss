@@ -1,30 +1,61 @@
-.messageBlockInc {
+.messageContainerIn {
   display: flex;
-  width: fit-content;
-  max-width: 300px;
-  height: fit-content;
-  min-height: 50px;
-  border-radius: 0 10px 10px 10px;
-  background-color: #F1F7FF;
+  flex-direction: column;
 
-  .messageText {
+  .user {
     color: $blackText;
-    padding: 10px 25px;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .messageBlock {
+    display: flex;
+    width: fit-content;
+    max-width: 500px;
+    height: fit-content;
+    min-height: 50px;
+    border-radius: 0 10px 10px 10px;
+    background-color: #F1F7FF;
+    align-items: center;
+
+    .messageText {
+      color: $blackText;
+      padding: 10px 25px;
+    }
+  }
+
+  .date {
+    color: rgba(13, 8, 44, 0.40);
+    font-size: 14px;
+    font-weight: 400;
   }
 }
 
-.messageBlockOut {
+.messageContainerOut {
   display: flex;
-  width: fit-content;
-  max-width: 300px;
-  height: fit-content;
-  min-height: 50px;
-  border-radius: 10px 0 10px 10px;
-  background-color: #4629F2;
-  overflow: hidden;
+  flex-direction: column;
+  align-items: end;
 
-  .messageText {
-    color: #fff;
-    padding: 10px 25px;
+  .messageBlock {
+    display: flex;
+    width: fit-content;
+    max-width: 500px;
+    height: fit-content;
+    min-height: 50px;
+    border-radius: 10px 0 10px 10px;
+    background-color: #4629F2;
+    overflow: hidden;
+    align-items: center;
+
+    .messageText {
+      color: #fff;
+      padding: 10px 25px;
+    }
+  }
+
+  .date {
+    color: rgba(13, 8, 44, 0.40);
+    font-size: 14px;
+    font-weight: 400;
   }
 }

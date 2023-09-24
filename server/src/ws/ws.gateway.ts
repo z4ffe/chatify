@@ -1,12 +1,13 @@
 import {Logger} from '@nestjs/common'
 import {OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, SubscribeMessage, WebSocketGateway} from '@nestjs/websockets'
-import {MessageDto} from './dto/messageDto'
+import {DataDto, MessageDto} from './dto/messageDto'
 import {WsService} from './ws.service'
 
 @WebSocketGateway()
 export class WsGateway implements OnGatewayConnection, OnGatewayInit, OnGatewayDisconnect {
 	private readonly logger = new Logger('WebSocket Logger')
 	private clients: WebSocket[] = []
+	private messagesList: MessageDto[] = []
 
 	constructor(private readonly wsService: WsService) {
 	}
@@ -17,16 +18,17 @@ export class WsGateway implements OnGatewayConnection, OnGatewayInit, OnGatewayD
 
 	handleConnection(client: WebSocket) {
 		this.clients.push(client)
-		this.wsService.sendCurrentOnlineCount(this.clients)
+		this.wsService.sendOnlineCount(this.clients)
+		this.wsService.sendMessageForClient(client, this.messagesList)
 	}
 
 	@SubscribeMessage('message')
-	handleMessage(_: any, data: MessageDto) {
-		this.wsService.sendMessageForAllClients(this.clients, data)
+	handleMessage(_: any, data: DataDto) {
+		this.wsService.sendMessageForAllClients(this.clients, data, this.messagesList)
 	}
 
 	handleDisconnect(client: WebSocket) {
 		this.clients = this.wsService.removeClient(this.clients, client)
-		this.wsService.sendCurrentOnlineCount(this.clients)
+		this.wsService.sendOnlineCount(this.clients)
 	}
 }
