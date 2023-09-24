@@ -5,7 +5,7 @@ import {useAppSelector} from '../lib/redux/typedHooks.ts'
 import {greetingHandler} from '../utils/greetingHandler.ts'
 
 export const Header = () => {
-	const {user, activeUsers, status} = useAppSelector(state => state.globalReducer)
+	const {user, onlineUsers, status} = useAppSelector(state => state.globalReducer)
 
 	return (
 		<div style={{
@@ -16,7 +16,7 @@ export const Header = () => {
 				<Title level={2}>{CONSTANTS.TITLE}</Title>
 				<Space>
 					<Space>
-						<Typography>Active users: {activeUsers}</Typography>
+						<Typography>Active users: {onlineUsers}</Typography>
 					</Space>
 					<Space>
 						<Typography>Network status: {status}</Typography>

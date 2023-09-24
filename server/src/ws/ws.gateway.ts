@@ -17,27 +17,16 @@ export class WsGateway implements OnGatewayConnection, OnGatewayInit, OnGatewayD
 
 	handleConnection(client: WebSocket) {
 		this.clients.push(client)
+		this.wsService.sendCurrentOnlineCount(this.clients)
 	}
 
 	@SubscribeMessage('message')
-	handleMessage(client: unknown, data: MessageDto) {
-		const response = {
-			...data,
-			date: new Date(),
-			client: this.clients.length,
-		}
-		this.clients.forEach(cl => {
-			cl.send(JSON.stringify(response))
-		})
-	}
-
-	@SubscribeMessage('online-users')
-	handleOnlineUsers(client: any, data: MessageDto) {
-		const response = {onlineUsers: this.clients.length}
-		client.send(JSON.stringify(response))
+	handleMessage(_: any, data: MessageDto) {
+		this.wsService.sendMessageForAllClients(this.clients, data)
 	}
 
 	handleDisconnect(client: WebSocket) {
-		this.clients = this.clients.filter(cl => client !== cl)
+		this.clients = this.wsService.removeClient(this.clients, client)
+		this.wsService.sendCurrentOnlineCount(this.clients)
 	}
 }

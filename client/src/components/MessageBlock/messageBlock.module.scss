@@ -1,0 +1,30 @@
+.messageBlockInc {
+  display: flex;
+  width: fit-content;
+  max-width: 300px;
+  height: fit-content;
+  min-height: 50px;
+  border-radius: 0 10px 10px 10px;
+  background-color: #F1F7FF;
+
+  .messageText {
+    color: $blackText;
+    padding: 10px 25px;
+  }
+}
+
+.messageBlockOut {
+  display: flex;
+  width: fit-content;
+  max-width: 300px;
+  height: fit-content;
+  min-height: 50px;
+  border-radius: 10px 0 10px 10px;
+  background-color: #4629F2;
+  overflow: hidden;
+
+  .messageText {
+    color: #fff;
+    padding: 10px 25px;
+  }
+}

@@ -5,7 +5,7 @@
   height: 450px;
   margin: auto;
   border-radius: 5px;
-  box-shadow: 1px 1px 55px #D7D7D7FF;
+  box-shadow: 0 30px 60px 0 rgba(70, 41, 242, 0.14);
   overflow: hidden;
   border-bottom: 15px solid #4560F7;
 
@@ -67,9 +67,11 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: center;
       }
 
       .submitButton {
+        margin-top: 5px;
         width: 120px;
         color: $blackText;
         text-transform: uppercase;
@@ -79,6 +81,10 @@
   }
 }
 
-.nameInput::placeholder {
-  text-align: center;
+.nameInput {
+  width: 250px;
+
+  &::placeholder {
+    text-align: center;
+  }
 }

@@ -3,13 +3,13 @@ import {EStatus} from '../../types/enum/Status.ts'
 
 interface IGlobalSlice {
 	user: string
-	activeUsers: number
+	onlineUsers: number
 	status: EStatus
 }
 
 const initialState: IGlobalSlice = {
 	user: '',
-	activeUsers: 0,
+	onlineUsers: 0,
 	status: EStatus.connecting,
 }
 
@@ -22,6 +22,9 @@ const globalSlice = createSlice({
 		},
 		changeNetworkStatus: (state, action) => {
 			state.status = action.payload
+		},
+		setOnlineUsers: (state, action) => {
+			state.onlineUsers = action.payload
 		},
 	},
 })

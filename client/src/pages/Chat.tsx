@@ -5,13 +5,13 @@ import {CONSTANTS} from '../constants/constants.ts'
 import {wsEvents} from '../constants/wsEvents.ts'
 import {useAppDispatch, useAppSelector} from '../lib/redux/typedHooks.ts'
 import {globalActions} from '../store/global/globalSlice.ts'
-import {readyStateHandler} from '../utils/readyStateHandler.ts'
+import {WSMsgData, WSResponse} from '../types/contracts/wsMessage.ts'
 
 export const Chat = () => {
 	const dispatch = useAppDispatch()
 	const {user} = useAppSelector(state => state.globalReducer)
 	const [socket, setSocket] = useState<WebSocket | null>(null)
-	const [chatMessages, setChatMessages] = useState<IWsMessage[]>([])
+	const [chatMessages, setChatMessages] = useState<WSResponse[]>([])
 	const [readyState, setReadyState] = useState<number>(0)
 	const [input, setInput] = useState<string>('')
 
@@ -25,19 +25,18 @@ export const Chat = () => {
 		}
 	}, [])
 
-	useEffect(() => {
-		const status = readyStateHandler(readyState)
-		dispatch(globalActions.changeNetworkStatus(status))
-	}, [readyState])
-
 
 	useEffect(() => {
 		if (socket) {
 			socket.onopen = () => {
 				socket.onmessage = (message) => {
-					console.log(message)
-					const parsedResponse: IWsMessage = JSON.parse(message.data)
-					setChatMessages(prevState => [...prevState, parsedResponse])
+					const parsedResponse: WSMsgData = JSON.parse(message.data)
+					if (parsedResponse.event === 'onlineUsers') {
+						console.log(parsedResponse)
+						dispatch(globalActions.setOnlineUsers(parsedResponse.data.onlineUsers))
+					} else {
+						setChatMessages(prevState => [...prevState, parsedResponse])
+					}
 				}
 				setReadyState(socket.OPEN)
 			}
@@ -51,12 +50,6 @@ export const Chat = () => {
 		const str = event.currentTarget.value
 		setInput(str)
 	}
-
-	useEffect(() => {
-		setTimeout(() => {
-			socket?.send(JSON.stringify({event: wsEvents.onlineUsers}))
-		}, 5000)
-	}, [])
 
 	const handleSendMsg = () => {
 		if (input.length) {
