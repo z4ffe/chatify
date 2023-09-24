@@ -1,5 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit'
 import {EStatus} from '../../types/enum/Status.ts'
+import {readyStateHandler} from '../../utils/readyStateHandler.ts'
 
 interface IGlobalSlice {
 	user: string
@@ -21,11 +22,12 @@ const globalSlice = createSlice({
 			state.user = action.payload
 		},
 		changeNetworkStatus: (state, action) => {
-			state.status = action.payload
+			state.status = readyStateHandler(action.payload)
 		},
 		setOnlineUsers: (state, action) => {
 			state.onlineUsers = action.payload
 		},
+		resetState: () => initialState,
 	},
 })
 

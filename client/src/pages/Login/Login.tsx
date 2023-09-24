@@ -2,6 +2,7 @@ import {WechatOutlined} from '@ant-design/icons'
 import {zodResolver} from '@hookform/resolvers/zod'
 import {Button, Form, Input} from 'antd'
 import Title from 'antd/es/typography/Title'
+import {motion} from 'framer-motion'
 import {Controller, useForm, useWatch} from 'react-hook-form'
 import {CONSTANTS} from '../../constants/constants.ts'
 import {useAppDispatch} from '../../lib/redux/typedHooks.ts'
@@ -26,7 +27,18 @@ export const Login = () => {
 	}
 
 	return (
-		<div className={styles.loginWrapper}>
+		<motion.div className={styles.loginWrapper}
+						initial={{opacity: 0, scale: 0.5}}
+						animate={{opacity: 1, scale: 1}}
+						transition={{
+							duration: 0.3,
+							scale: {
+								type: 'spring',
+								damping: 40,
+								stiffness: 150,
+								restDelta: 0.0001,
+							},
+						}}>
 			<div className={styles.loginHeader}>
 				<div className={styles.headerWrapper}>
 					<WechatOutlined className={styles.headerIcon} />
@@ -46,7 +58,7 @@ export const Login = () => {
 					</Form>
 				</div>
 			</div>
-		</div>
+		</motion.div>
 	)
 }
 
