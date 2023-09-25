@@ -7,6 +7,12 @@ export class WsService {
 	private readonly logger = new Logger('WsService Logger')
 
 	addClientToList(clients: ClientsList, client: WebSocket, user: string) {
+		const userExist = this.findClientByUser(clients, user)
+		if (userExist) {
+			const payload = {event: 'userExist', data: {error: 'User already exist'}}
+			client.send(JSON.stringify(payload))
+			client.close()
+		}
 		const payload = {event: 'userIn', data: {user: user}}
 		clients.forEach((_, client) => {
 			client.send(JSON.stringify(payload))
@@ -54,8 +60,8 @@ export class WsService {
 	}
 
 	removeClient(clients: ClientsList, currentClient: WebSocket) {
-		const user = clients.get(currentClient)
-		const payload = {event: 'userOut', data: {user: user}}
+		const payload = {event: 'userOut', data: clients.get(currentClient)}
+		console.log(payload)
 		clients.forEach((_, client) => {
 			client.send(JSON.stringify(payload))
 		})
@@ -67,5 +73,14 @@ export class WsService {
 		clients.forEach((_, client) => {
 			client.send(JSON.stringify(response))
 		})
+	}
+
+	private findClientByUser(clients: ClientsList, user: string) {
+		clients.forEach((currentUser, _) => {
+			if (currentUser.user === user) {
+				return true
+			}
+		})
+		return false
 	}
 }

@@ -1,3 +1,4 @@
+import {SmileOutlined} from '@ant-design/icons'
 import {Button, Popconfirm} from 'antd'
 import EmojiPicker, {EmojiClickData} from 'emoji-picker-react'
 import {FC} from 'react'
@@ -19,7 +20,7 @@ export const EmojiComponent: FC<Props> = ({handleEmoji}) => {
 				title={''}
 				description={<EmojiPicker lazyLoadEmojis={true} skinTonesDisabled={true} onEmojiClick={handleEmoji} />}
 			>
-				<Button>LT</Button>
+				<Button className={styles.emojiButton} icon={<SmileOutlined className={styles.icon} />}></Button>
 			</Popconfirm>
 		</div>
 	)

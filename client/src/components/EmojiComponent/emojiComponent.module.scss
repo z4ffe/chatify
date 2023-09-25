@@ -1,5 +1,6 @@
 .container {
   position: relative;
+  overflow: hidden;
 
   .emojiWrapper {
     position: absolute;
@@ -8,9 +9,16 @@
   }
 
   .emojiButton {
+    display: flex;
+    height: 100%;
+    align-items: center;
     background: none;
     border: none;
     box-shadow: none;
     color: grey;
+
+    .icon {
+      font-size: 23px;
+    }
   }
 }

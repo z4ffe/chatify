@@ -1,0 +1,49 @@
+.inputPanel {
+  display: flex;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  background-color: white;
+  overflow: hidden;
+  align-items: center;
+  padding-left: 40px;
+  padding-right: 40px;
+  height: 50px;
+
+  .input {
+    border-radius: 0;
+    margin-left: 20px;
+    border: 0;
+    width: 91%;
+    font-size: 16px;
+    outline: none !important;
+    border: none !important;
+
+    &:focus {
+      outline: none !important;
+      border: none !important;
+      box-shadow: rgba(0, 0, 0, 0.06) 0 1px 2px 0 inset;
+      border-radius: 5px;
+    }
+  }
+
+  .sendButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    width: 32px;
+    height: 32px;
+    box-shadow: none;
+    border-radius: 50%;
+    background: #4629F2;
+    margin-left: auto;
+
+    &:hover {
+      background: #2b0fc2;
+    }
+
+    .arrow {
+      font-size: 16px;
+      color: white;
+    }
+  }
+}

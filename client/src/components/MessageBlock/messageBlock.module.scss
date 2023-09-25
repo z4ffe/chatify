@@ -1,63 +1,88 @@
 .messageContainerIn {
   display: flex;
-  flex-direction: column;
   margin-left: 30px;
 
-  .user {
-    color: $blackText;
-    font-size: 16px;
-    font-weight: 600;
-  }
-
-  .messageBlock {
+  .avatarWrapper {
+    width: 50px;
     display: flex;
-    width: fit-content;
-    max-width: 500px;
-    height: fit-content;
-    min-height: 50px;
-    border-radius: 0 10px 10px 10px;
-    background-color: #F1F7FF;
     align-items: center;
-
-    .messageText {
-      color: $blackText;
-      padding: 10px 25px;
-    }
+    justify-content: center;
   }
 
-  .date {
-    color: rgba(13, 8, 44, 0.40);
-    font-size: 14px;
-    font-weight: 400;
+  .messageWrapper {
+
+    .user {
+      color: $blackText;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .messageBlock {
+      display: flex;
+      width: fit-content;
+      max-width: 500px;
+      height: fit-content;
+      min-height: 50px;
+      border-radius: 0 10px 10px 10px;
+      background-color: #F1F7FF;
+      align-items: center;
+
+      .messageText {
+        color: $blackText;
+        padding: 10px 25px;
+      }
+    }
+
+    .date {
+      margin-top: 3px;
+      color: rgba(13, 8, 44, 0.40);
+      font-size: 14px;
+      font-weight: 400;
+    }
   }
 }
 
 .messageContainerOut {
   display: flex;
-  flex-direction: column;
-  align-items: end;
+  flex-direction: row-reverse;
+  justify-content: end;
   margin-right: 30px;
 
-  .messageBlock {
+  .avatarWrapper {
+    width: 50px;
     display: flex;
-    width: fit-content;
-    max-width: 500px;
-    height: fit-content;
-    min-height: 50px;
-    border-radius: 10px 0 10px 10px;
-    background-color: #4629F2;
-    overflow: hidden;
     align-items: center;
-
-    .messageText {
-      color: #fff;
-      padding: 10px 25px;
-    }
+    justify-content: center;
   }
 
-  .date {
-    color: rgba(13, 8, 44, 0.40);
-    font-size: 14px;
-    font-weight: 400;
+  .messageWrapper {
+    display: flex;
+    flex-direction: column;
+    padding-top: 22px;
+
+    .messageBlock {
+      display: flex;
+      width: fit-content;
+      max-width: 500px;
+      height: fit-content;
+      min-height: 50px;
+      border-radius: 10px 0 10px 10px;
+      background-color: #4629F2;
+      overflow: hidden;
+      align-items: center;
+
+      .messageText {
+        color: #fff;
+        padding: 10px 25px;
+      }
+    }
+
+    .date {
+      margin-top: 3px;
+      color: rgba(13, 8, 44, 0.40);
+      font-size: 14px;
+      font-weight: 400;
+      align-self: end;
+    }
   }
 }

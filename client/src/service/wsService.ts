@@ -1,8 +1,8 @@
 import {CONSTANTS} from '../constants/constants.ts'
+import {WSMessage} from '../entities/wsMessage.ts'
 import {globalActions} from '../store/global/globalSlice.ts'
 import store from '../store/store.ts'
 import {WsContract} from '../types/contracts/wsContract.ts'
-import {WSMessage} from '../utils/wsMessage.ts'
 
 export class WsService {
 	constructor(private socket: WebSocket = new WebSocket(CONSTANTS.WS_URL)) {
@@ -14,20 +14,24 @@ export class WsService {
 			this.socket.send(JSON.stringify(userData))
 			this.socket.onmessage = (message) => {
 				const parsedResponse: WsContract = JSON.parse(message.data)
+				console.log(parsedResponse)
 				switch (parsedResponse.event) {
 					case 'message':
 						return handleMessage(parsedResponse)
 					case 'onlineUsers':
 						return store.dispatch(globalActions.setOnlineUsers(parsedResponse.data.onlineUsers))
 					case 'userIn':
-						return console.log('IN', parsedResponse.data.user)
+						return handleMessage(parsedResponse)
 					case 'userOut':
-						return console.log('OUT', parsedResponse.data.user)
+						return handleMessage(parsedResponse)
 					default:
 						break
 				}
 			}
 			store.dispatch(globalActions.changeNetworkStatus(this.socket.OPEN))
+		}
+		this.socket.onclose = () => {
+			store.dispatch(globalActions.changeNetworkStatus(this.socket.CLOSED))
 		}
 	}
 

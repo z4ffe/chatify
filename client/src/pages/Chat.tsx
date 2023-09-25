@@ -1,8 +1,7 @@
-import {Button, Input} from 'antd'
 import {EmojiClickData} from 'emoji-picker-react'
 import {KeyboardEvent, SyntheticEvent, useEffect, useState} from 'react'
 import {ChatTable} from '../components/ChatTable/ChatTable.tsx'
-import {EmojiComponent} from '../components/EmojiComponent/EmojiComponent.tsx'
+import {InputPanel} from '../components/InputPanel/InputPanel.tsx'
 import {useAppSelector} from '../lib/redux/typedHooks.ts'
 import {WsService} from '../service/wsService.ts'
 import {WsContract} from '../types/contracts/wsContract.ts'
@@ -24,7 +23,7 @@ export const Chat = () => {
 	}, [])
 
 	const handleSendMsg = () => {
-		if (input.length > 0) {
+		if (input.length) {
 			wsInstance?.sendMessage(user, input)
 			setInput('')
 		}
@@ -35,7 +34,6 @@ export const Chat = () => {
 			handleSendMsg()
 		}
 	}
-
 
 	const handleMessage = (data: WsContract) => {
 		setChatMessages(prevState => [...prevState, data])
@@ -52,11 +50,7 @@ export const Chat = () => {
 	return (
 		<div>
 			<ChatTable chatMessages={chatMessages} />
-			<div style={{display: 'flex', marginTop: '5px'}}>
-				<Input autoFocus placeholder='Enter you message...' onChange={handleInput} value={input} onKeyDown={(e) => handleEnterKey(e)} />
-				<EmojiComponent handleEmoji={handleEmoji} />
-				<Button onClick={handleSendMsg}>SEND</Button>
-			</div>
+			<InputPanel input={input} handleInput={handleInput} handleEnterKey={handleEnterKey} handleEmoji={handleEmoji} handleSendMsg={handleSendMsg} />
 		</div>
 	)
 }
