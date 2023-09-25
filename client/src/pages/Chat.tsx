@@ -48,7 +48,7 @@ export const Chat = () => {
 	}
 
 	return (
-		<div>
+		<div style={{display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between'}}>
 			<ChatTable chatMessages={chatMessages} />
 			<InputPanel input={input} handleInput={handleInput} handleEnterKey={handleEnterKey} handleEmoji={handleEmoji} handleSendMsg={handleSendMsg} />
 		</div>

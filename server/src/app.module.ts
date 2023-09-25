@@ -1,9 +1,8 @@
 import {Module} from '@nestjs/common'
-import { WsModule } from './ws/ws.module';
-import { UserModule } from './user/user.module';
+import {WsModule} from './ws/ws.module'
 
 @Module({
-	imports: [WsModule, UserModule],
+	imports: [WsModule],
 })
 export class AppModule {
 }

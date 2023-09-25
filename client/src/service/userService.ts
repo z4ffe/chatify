@@ -1,4 +1,4 @@
-import {apiInstance} from '../lib/apiInstance.ts'
+import {apiInstance} from '../lib/axios/apiInstance.ts'
 
 class UserService {
 	async checkUser(login: string) {

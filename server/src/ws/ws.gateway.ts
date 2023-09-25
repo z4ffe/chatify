@@ -4,7 +4,6 @@ import {DataDto, MessageDto} from './dto/messageDto'
 import {ClientsList} from './interfaces/clientInterface'
 import {WsService} from './ws.service'
 
-
 @WebSocketGateway()
 export class WsGateway implements OnGatewayConnection, OnGatewayInit, OnGatewayDisconnect {
 	private readonly logger = new Logger('WebSocket Logger')

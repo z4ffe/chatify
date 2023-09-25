@@ -5,7 +5,7 @@ import {WsGateway} from './ws.gateway'
 import {WsService} from './ws.service'
 
 @Controller('user')
-export class UserController {
+export class WsController {
 	constructor(private readonly wsService: WsService, private readonly wsGateway: WsGateway) {
 	}
 
