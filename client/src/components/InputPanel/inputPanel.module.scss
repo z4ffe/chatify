@@ -47,3 +47,24 @@
     }
   }
 }
+
+@media only screen and (max-width: 450px) {
+  .inputPanel {
+    padding-left: 20px;
+    padding-right: 20px;
+
+    .input {
+      margin-left: 5px;
+      width: 77%;
+
+      &:focus {
+      }
+    }
+
+    .sendButton {
+
+      .arrow {
+      }
+    }
+  }
+}

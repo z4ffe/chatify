@@ -2,9 +2,16 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-height: calc(100vh - 150px - 40px);
+  max-height: calc(100vh - $headerHeight - $footerHeight - 2px);
+  height: 100%;
   background-color: #fff;
   gap: 10px;
   overflow: scroll;
   padding-top: 10px;
+}
+
+@media only screen and (max-width: 450px) {
+  .container {
+    max-height: calc(100vh - $headerHeight - $footerHeight + 10px);
+  }
 }

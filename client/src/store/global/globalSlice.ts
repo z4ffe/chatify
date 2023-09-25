@@ -28,7 +28,11 @@ const globalSlice = createSlice({
 			state.user = action.payload
 		},
 		changeNetworkStatus: (state, action) => {
-			state.status = readyStateHandler(action.payload)
+			if (action.payload === WebSocket.CLOSED) {
+				state.user = ''
+			} else {
+				state.status = readyStateHandler(action.payload)
+			}
 		},
 		setOnlineUsers: (state, action) => {
 			state.onlineUsers = action.payload

@@ -47,3 +47,32 @@
     }
   }
 }
+
+@media only screen and (max-width: 450px) {
+  .headerWrapper {
+    height: 90px;
+
+    .headerWrapper__filter {
+
+      .logoContainer {
+        flex-direction: column;
+        gap: 0;
+        padding-left: 10px;
+
+        .logoIcon {
+          font-size: 40px;
+        }
+
+        .headerTitle {
+          font-size: 20px;
+          margin-top: 0;
+        }
+      }
+
+      .statusContainer {
+        padding-right: 10px;
+        font-size: 12px;
+      }
+    }
+  }
+}
