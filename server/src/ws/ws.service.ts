@@ -10,7 +10,6 @@ export class WsService {
 
 	addClientToList(clients: ClientsList, client: WebSocket, user: string) {
 		const userExist = this.findClientByUser(clients, user)
-		console.log(userExist)
 		if (userExist) {
 			const payload = new WsMessage('userExist', {user, error: 'User already exist'})
 			client.send(JSON.stringify(payload))
@@ -63,7 +62,7 @@ export class WsService {
 		})
 	}
 
-	private findClientByUser(clients: ClientsList, user: string) {
+	findClientByUser(clients: ClientsList, user: string) {
 		let userExist = false
 		clients.forEach((currentUser, _) => {
 			if (currentUser.user === user) {

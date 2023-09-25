@@ -8,10 +8,14 @@ import {WsService} from './ws.service'
 @WebSocketGateway()
 export class WsGateway implements OnGatewayConnection, OnGatewayInit, OnGatewayDisconnect {
 	private readonly logger = new Logger('WebSocket Logger')
-	private mapClients: ClientsList = new Map<WebSocket, {user: string}>
+	private clients: ClientsList = new Map<WebSocket, {user: string}>
 	private messagesList: MessageDto[] = []
 
 	constructor(private readonly wsService: WsService) {
+	}
+
+	get clientsList() {
+		return this.clients
 	}
 
 	afterInit() {
@@ -24,18 +28,18 @@ export class WsGateway implements OnGatewayConnection, OnGatewayInit, OnGatewayD
 
 	@SubscribeMessage('message')
 	handleMessage(_: any, data: DataDto) {
-		this.wsService.sendMessageForAllClients(this.mapClients, data, this.messagesList)
+		this.wsService.sendMessageForAllClients(this.clients, data, this.messagesList)
 	}
 
 	@SubscribeMessage('userData')
 	handleUserData(client: any, data: DataDto) {
-		this.wsService.addClientToList(this.mapClients, client, data.user)
-		this.wsService.sendOnlineCount(this.mapClients)
-		this.wsService.sendMessageForAllClients(this.mapClients, data, this.messagesList)
+		this.wsService.addClientToList(this.clients, client, data.user)
+		this.wsService.sendOnlineCount(this.clients)
+		this.wsService.sendMessageForAllClients(this.clients, data, this.messagesList)
 	}
 
 	handleDisconnect(client: WebSocket) {
-		this.wsService.removeClient(this.mapClients, client)
-		this.wsService.sendOnlineCount(this.mapClients)
+		this.wsService.removeClient(this.clients, client)
+		this.wsService.sendOnlineCount(this.clients)
 	}
 }
