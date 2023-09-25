@@ -1,3 +1,4 @@
+import {message as antdMessage} from 'antd'
 import {CONSTANTS} from '../constants/constants.ts'
 import {WSMessage} from '../entities/wsMessage.ts'
 import {globalActions} from '../store/global/globalSlice.ts'
@@ -14,7 +15,6 @@ export class WsService {
 			this.socket.send(JSON.stringify(userData))
 			this.socket.onmessage = (message) => {
 				const parsedResponse: WsContract = JSON.parse(message.data)
-				console.log(parsedResponse)
 				switch (parsedResponse.event) {
 					case 'message':
 						return handleMessage(parsedResponse)
@@ -24,6 +24,9 @@ export class WsService {
 						return handleMessage(parsedResponse)
 					case 'userOut':
 						return handleMessage(parsedResponse)
+					case 'userExist':
+						antdMessage.open({type: 'error', content: 'User already exist', duration: 5})
+						return store.dispatch(globalActions.resetState())
 					default:
 						break
 				}

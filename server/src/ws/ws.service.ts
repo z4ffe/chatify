@@ -1,19 +1,22 @@
 import {Injectable, Logger} from '@nestjs/common'
 import {DataDto, MessageDto} from './dto/messageDto'
+import {WsMessage} from './entities/wsMessage'
 import {ClientsList} from './interfaces/clientInterface'
 
 @Injectable()
 export class WsService {
 	private readonly logger = new Logger('WsService Logger')
+	private readonly maxMessageHistory = 30
 
 	addClientToList(clients: ClientsList, client: WebSocket, user: string) {
 		const userExist = this.findClientByUser(clients, user)
+		console.log(userExist)
 		if (userExist) {
-			const payload = {event: 'userExist', data: {error: 'User already exist'}}
+			const payload = new WsMessage('userExist', {user, error: 'User already exist'})
 			client.send(JSON.stringify(payload))
-			client.close()
+			return client.close()
 		}
-		const payload = {event: 'userIn', data: {user: user}}
+		const payload = new WsMessage('userIn', {user: user})
 		clients.forEach((_, client) => {
 			client.send(JSON.stringify(payload))
 		})
@@ -30,57 +33,43 @@ export class WsService {
 
 	sendMessageForAllClients(clients: ClientsList, payload: DataDto, messageList: MessageDto[]) {
 		this.messageListHandler(payload, messageList)
-		const response = {
-			event: 'message',
-			data: {
-				user: payload.user,
-				message: payload.message,
-				date: new Date(),
-			},
-		}
+		const newMessage = new WsMessage('message', {user: payload.user, message: payload.message, date: new Date()})
 		clients.forEach((_, client) => {
-			client.send(JSON.stringify(response))
+			client.send(JSON.stringify(newMessage))
 		})
 	}
 
 	messageListHandler(payload: DataDto, messageList: MessageDto[]) {
-		const response = {
-			event: 'message',
-			data: {
-				user: payload.user,
-				message: payload.message,
-				date: new Date(),
-			},
-		}
-		if (messageList.length > 10) {
+		const newMessage = new WsMessage('message', {user: payload.user, message: payload.message, date: new Date()})
+		if (messageList.length > this.maxMessageHistory) {
 			messageList.shift()
-			return messageList.push(response)
+			return messageList.push(newMessage)
 		}
-		messageList.push(response)
+		messageList.push(newMessage)
 	}
 
 	removeClient(clients: ClientsList, currentClient: WebSocket) {
-		const payload = {event: 'userOut', data: clients.get(currentClient)}
-		console.log(payload)
+		const newMessage = new WsMessage('userOut', clients.get(currentClient))
 		clients.forEach((_, client) => {
-			client.send(JSON.stringify(payload))
+			client.send(JSON.stringify(newMessage))
 		})
 		clients.delete(currentClient)
 	}
 
 	sendOnlineCount(clients: ClientsList) {
-		const response = {event: 'onlineUsers', data: {onlineUsers: clients.size}}
+		const payload = new WsMessage('onlineUsers', {user: '', onlineUsers: clients.size})
 		clients.forEach((_, client) => {
-			client.send(JSON.stringify(response))
+			client.send(JSON.stringify(payload))
 		})
 	}
 
 	private findClientByUser(clients: ClientsList, user: string) {
+		let userExist = false
 		clients.forEach((currentUser, _) => {
 			if (currentUser.user === user) {
-				return true
+				userExist = true
 			}
 		})
-		return false
+		return userExist
 	}
 }

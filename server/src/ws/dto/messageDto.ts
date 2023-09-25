@@ -7,10 +7,10 @@ export class DataDto {
 
 	@IsNotEmpty()
 	@IsString()
-	message: string
+	message?: string
 
 	@IsDate()
-	date: Date
+	date?: Date
 }
 
 export class MessageDto {

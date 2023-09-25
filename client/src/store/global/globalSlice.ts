@@ -6,12 +6,18 @@ interface IGlobalSlice {
 	user: string
 	onlineUsers: number
 	status: EStatus
+	theme: 'light' | 'dark'
+	language: 'en' | 'ru'
+	error: '' | 'exist'
 }
 
 const initialState: IGlobalSlice = {
 	user: '',
 	onlineUsers: 0,
 	status: EStatus.connecting,
+	theme: 'light',
+	language: 'en',
+	error: '',
 }
 
 const globalSlice = createSlice({

@@ -3,7 +3,7 @@ export type WSEvents = 'message' | 'onlineUsers' | 'userIn' | 'userOut' | 'userD
 export interface WSPayload {
 	user: string
 	message?: string
-	date?: string
+	date?: Date
 	onlineUsers?: number
 	error?: string
 }
@@ -11,4 +11,15 @@ export interface WSPayload {
 export interface WsContract {
 	event: WSEvents
 	data: WSPayload
+}
+
+
+export class WsMessage implements WsContract {
+	event: WSEvents
+	data: WSPayload
+
+	constructor(event: WSEvents, data: WSPayload) {
+		this.event = event
+		this.data = data
+	}
 }

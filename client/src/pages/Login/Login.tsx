@@ -8,7 +8,8 @@ import {CONSTANTS} from '../../constants/constants.ts'
 import {useAppDispatch} from '../../lib/redux/typedHooks.ts'
 import {globalActions} from '../../store/global/globalSlice.ts'
 import {loginSchema, loginSchemaType} from '../../validation/loginSchema.ts'
-import styles from './Login.module.scss'
+import styles from './login.module.scss'
+import {loginAnimation} from './loginAnimation.ts'
 
 export const Login = () => {
 	const dispatch = useAppDispatch()
@@ -27,18 +28,7 @@ export const Login = () => {
 	}
 
 	return (
-		<motion.div className={styles.loginWrapper}
-						initial={{opacity: 0, scale: 0.5}}
-						animate={{opacity: 1, scale: 1}}
-						transition={{
-							duration: 0.3,
-							scale: {
-								type: 'spring',
-								damping: 40,
-								stiffness: 150,
-								restDelta: 0.0001,
-							},
-						}}>
+		<motion.div className={styles.loginWrapper} {...loginAnimation}>
 			<div className={styles.loginHeader}>
 				<div className={styles.headerWrapper}>
 					<WechatOutlined className={styles.headerIcon} />
