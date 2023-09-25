@@ -1,11 +1,12 @@
-import {CONSTANTS} from '../constants/constants.ts'
 import {WSMessage} from '../entities/wsMessage.ts'
 import {globalActions} from '../store/global/globalSlice.ts'
 import store from '../store/store.ts'
 import {WsContract} from '../types/contracts/wsContract.ts'
 
+const WS_URL = import.meta.env.VITE_WS_URL
+
 export class WsService {
-	constructor(private socket: WebSocket = new WebSocket(CONSTANTS.WS_URL)) {
+	constructor(private socket: WebSocket = new WebSocket(WS_URL)) {
 	}
 
 	openConnection(handleMessage: (data: WsContract) => void, user: string) {
