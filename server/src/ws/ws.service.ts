@@ -1,8 +1,19 @@
-import {Injectable} from '@nestjs/common'
+import {Injectable, Logger} from '@nestjs/common'
 import {DataDto, MessageDto} from './dto/messageDto'
+import {ClientsList} from './interfaces/clientInterface'
 
 @Injectable()
 export class WsService {
+	private readonly logger = new Logger('WsService Logger')
+
+	addClientToList(clients: ClientsList, client: WebSocket, user: string) {
+		const payload = {event: 'userIn', data: {user: user}}
+		clients.forEach((_, client) => {
+			client.send(JSON.stringify(payload))
+		})
+		clients.set(client, {user})
+	}
+
 	sendMessageForClient(client: WebSocket, data: MessageDto[]) {
 		if (data.length) {
 			data.forEach(msg => {
@@ -11,7 +22,7 @@ export class WsService {
 		}
 	}
 
-	sendMessageForAllClients(clients: WebSocket[], payload: DataDto, messageList: MessageDto[]) {
+	sendMessageForAllClients(clients: ClientsList, payload: DataDto, messageList: MessageDto[]) {
 		this.messageListHandler(payload, messageList)
 		const response = {
 			event: 'message',
@@ -21,7 +32,7 @@ export class WsService {
 				date: new Date(),
 			},
 		}
-		clients.forEach(client => {
+		clients.forEach((_, client) => {
 			client.send(JSON.stringify(response))
 		})
 	}
@@ -42,13 +53,18 @@ export class WsService {
 		messageList.push(response)
 	}
 
-	removeClient(clients: WebSocket[], currentClient: WebSocket) {
-		return clients.filter(client => client !== currentClient)
+	removeClient(clients: ClientsList, currentClient: WebSocket) {
+		const user = clients.get(currentClient)
+		const payload = {event: 'userOut', data: {user: user}}
+		clients.forEach((_, client) => {
+			client.send(JSON.stringify(payload))
+		})
+		clients.delete(currentClient)
 	}
 
-	sendOnlineCount(clients: WebSocket[]) {
-		const response = {event: 'onlineUsers', data: {onlineUsers: clients.length}}
-		clients.forEach(client => {
+	sendOnlineCount(clients: ClientsList) {
+		const response = {event: 'onlineUsers', data: {onlineUsers: clients.size}}
+		clients.forEach((_, client) => {
 			client.send(JSON.stringify(response))
 		})
 	}

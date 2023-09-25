@@ -1,0 +1,51 @@
+.headerWrapper {
+  display: flex;
+  width: 100%;
+  height: 150px;
+  background: $mainBackgroundGradient;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  overflow: hidden;
+
+  .headerWrapper__filter {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(5px);
+    justify-content: space-between;
+    align-items: center;
+
+    .logoContainer {
+      display: flex;
+      gap: 10px;
+      padding-left: 100px;
+
+      .logoIcon {
+        font-size: 50px;
+        color: #fff;
+        filter: drop-shadow(3px 5px 2px blue)
+      }
+
+      .headerTitle {
+        font-size: 30px;
+        margin-top: 5px;
+        color: #fff;
+        font-weight: 700;
+        text-shadow: 5px 5px 20px blue;
+        font-family: $logoFont;
+      }
+    }
+
+    .statusContainer {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding-right: 20px;
+      color: white;
+      text-align: right;
+      text-transform: uppercase;
+      text-shadow: 2px 2px 20px rgba(77, 77, 157, 0.65);
+    }
+  }
+}

@@ -1,7 +1,8 @@
 import {Button, Input} from 'antd'
-import {SyntheticEvent, useEffect, useState} from 'react'
+import {EmojiClickData} from 'emoji-picker-react'
+import {KeyboardEvent, SyntheticEvent, useEffect, useState} from 'react'
 import {ChatTable} from '../components/ChatTable/ChatTable.tsx'
-import {CONSTANTS} from '../constants/constants.ts'
+import {EmojiComponent} from '../components/EmojiComponent/EmojiComponent.tsx'
 import {useAppSelector} from '../lib/redux/typedHooks.ts'
 import {WsService} from '../service/wsService.ts'
 import {WSMsgData} from '../types/contracts/wsMessage.ts'
@@ -12,18 +13,28 @@ export const Chat = () => {
 	const [chatMessages, setChatMessages] = useState<WSMsgData[]>([])
 	const [input, setInput] = useState<string>('')
 
-	console.log(chatMessages)
-
 	useEffect(() => {
-		const ws = new WebSocket(CONSTANTS.WS_URL)
-		const wsService = new WsService(ws)
-		wsService.openConnection(handleMessage)
+		const wsService = new WsService()
+		wsService.openConnection(handleMessage, user)
 		setWsInstance(wsService)
 		document.title = `Chatify: ${user}`
 		return () => {
-			wsService.closeConnection()
+			wsInstance?.closeConnection()
 		}
 	}, [])
+
+	const handleSendMsg = () => {
+		if (input.length > 0) {
+			wsInstance?.sendMessage(user, input)
+			setInput('')
+		}
+	}
+
+	const handleEnterKey = (event: KeyboardEvent<HTMLInputElement>) => {
+		if (event.key === 'Enter') {
+			handleSendMsg()
+		}
+	}
 
 
 	const handleMessage = (data: WSMsgData) => {
@@ -34,16 +45,18 @@ export const Chat = () => {
 		setInput(event.currentTarget.value)
 	}
 
-	const handleSendMsg = () => {
-		wsInstance?.sendMessage(user, input)
-		setInput('')
+	const handleEmoji = (event: EmojiClickData) => {
+		setInput(prevState => prevState + ' ' + event.emoji + '')
 	}
 
 	return (
 		<div>
 			<ChatTable chatMessages={chatMessages} />
-			<Input autoFocus onChange={handleInput} value={input} />
-			<Button onClick={handleSendMsg}>send</Button>
+			<div style={{display: 'flex', marginTop: '5px'}}>
+				<Input autoFocus placeholder='Enter you message...' onChange={handleInput} value={input} onKeyDown={(e) => handleEnterKey(e)} />
+				<EmojiComponent handleEmoji={handleEmoji} />
+				<Button onClick={handleSendMsg}>SEND</Button>
+			</div>
 		</div>
 	)
 }

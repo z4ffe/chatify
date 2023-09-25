@@ -3,6 +3,7 @@
   margin: 0;
   padding: 0;
   font-family: 'Source Sans 3', 'sans-serif';
+  --epr-picker-border-color: white !important;
 }
 
 body {
@@ -11,9 +12,26 @@ body {
   width: 100vw;
   height: 100vh;
   background-color: #F1F7FF;
+  letter-spacing: 0.3px;
 }
 
 #root {
   width: 85%;
   height: 100%;
+}
+
+.ant-popconfirm-buttons {
+  display: none !important;
+}
+
+.ant-popover-inner {
+  padding: 0 !important;
+}
+
+.ant-popover-arrow {
+  bottom: 8px !important;
+}
+
+.aside.EmojiPickerReact.epr-main {
+  background-color: red !important;
 }
