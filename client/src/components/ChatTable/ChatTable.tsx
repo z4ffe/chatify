@@ -1,11 +1,13 @@
 import {FC, useEffect, useRef} from 'react'
+import {CONSTANTS} from '../../constants/constants.ts'
 import {useAppSelector} from '../../lib/redux/typedHooks.ts'
-import {WSMsgData} from '../../types/contracts/wsMessage.ts'
+import {WsContract} from '../../types/contracts/wsContract.ts'
+import {ChatNotification} from '../ChatNotification/ChatNotification.tsx'
 import {MessageBlock} from '../MessageBlock/MessageBlock.tsx'
 import styles from './chatTable.module.scss'
 
 interface Props {
-	chatMessages: WSMsgData[]
+	chatMessages: WsContract[]
 }
 
 export const ChatTable: FC<Props> = ({chatMessages}) => {
@@ -26,11 +28,11 @@ export const ChatTable: FC<Props> = ({chatMessages}) => {
 
 	return (
 		<div className={styles.container}>
-			<p className={styles.title}>Welcome to Chatify, {user}!</p>
+			<ChatNotification text={CONSTANTS.WELCOME_MESSAGE(user)} />
 			{chatMessages.map((message, idx) => {
-				if (message.data.user !== user) {
+				if (message.data.user !== user && message.event === 'message' && message.data.message && message.data.date) {
 					return (<MessageBlock key={idx} type={'out'} text={message.data.message} user={message.data.user} date={message.data.date} />)
-				} else if (message.data.user === user) {
+				} else if (message.data.user === user && message.event === 'message' && message.data.message && message.data.date) {
 					return (<MessageBlock key={idx} type={'in'} text={message.data.message} date={message.data.date} />)
 				}
 			})}

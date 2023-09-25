@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit'
-import {EStatus} from '../../types/enum/Status.ts'
+import {EStatus} from '../../types/enum/status.ts'
 import {readyStateHandler} from '../../utils/readyStateHandler.ts'
 
 interface IGlobalSlice {

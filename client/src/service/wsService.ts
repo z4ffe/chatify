@@ -1,33 +1,30 @@
 import {CONSTANTS} from '../constants/constants.ts'
-import {wsEvents} from '../constants/wsEvents.ts'
 import {globalActions} from '../store/global/globalSlice.ts'
 import store from '../store/store.ts'
-import {WSMsgData} from '../types/contracts/wsMessage.ts'
-
+import {WsContract} from '../types/contracts/wsContract.ts'
+import {WSMessage} from '../utils/wsMessage.ts'
 
 export class WsService {
 	constructor(private socket: WebSocket = new WebSocket(CONSTANTS.WS_URL)) {
 	}
 
-	openConnection(handleMessage: (data: WSMsgData) => void, user: string) {
+	openConnection(handleMessage: (data: WsContract) => void, user: string) {
 		this.socket.onopen = () => {
-			const userData = {
-				event: 'userData',
-				data: {
-					user: user,
-				},
-			}
+			const userData = new WSMessage('userData', {user})
 			this.socket.send(JSON.stringify(userData))
 			this.socket.onmessage = (message) => {
-				const parsedResponse: WSMsgData = JSON.parse(message.data)
-				if (parsedResponse.event === 'onlineUsers') {
-					store.dispatch(globalActions.setOnlineUsers(parsedResponse.data.onlineUsers))
-				} else if (parsedResponse.event === 'userIn') {
-					console.log('IN', parsedResponse.data.user)
-				} else if (parsedResponse.event === 'userOut') {
-					console.log('OUT', parsedResponse.data.user)
-				} else {
-					handleMessage(parsedResponse)
+				const parsedResponse: WsContract = JSON.parse(message.data)
+				switch (parsedResponse.event) {
+					case 'message':
+						return handleMessage(parsedResponse)
+					case 'onlineUsers':
+						return store.dispatch(globalActions.setOnlineUsers(parsedResponse.data.onlineUsers))
+					case 'userIn':
+						return console.log('IN', parsedResponse.data.user)
+					case 'userOut':
+						return console.log('OUT', parsedResponse.data.user)
+					default:
+						break
 				}
 			}
 			store.dispatch(globalActions.changeNetworkStatus(this.socket.OPEN))
@@ -35,14 +32,8 @@ export class WsService {
 	}
 
 	sendMessage(user: string, message: string) {
-		const payload = {
-			event: wsEvents.message,
-			data: {
-				user,
-				message,
-			},
-		}
-		this.socket.send(JSON.stringify(payload))
+		const newMessage = new WSMessage('message', {user, message})
+		this.socket.send(JSON.stringify(newMessage))
 	}
 
 	closeConnection() {

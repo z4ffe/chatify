@@ -1,4 +1,4 @@
-import {EStatus} from '../types/enum/Status.ts'
+import {EStatus} from '../types/enum/status.ts'
 
 export const readyStateHandler = (readyState: number) => {
 	switch (readyState) {

@@ -5,12 +5,12 @@ import {ChatTable} from '../components/ChatTable/ChatTable.tsx'
 import {EmojiComponent} from '../components/EmojiComponent/EmojiComponent.tsx'
 import {useAppSelector} from '../lib/redux/typedHooks.ts'
 import {WsService} from '../service/wsService.ts'
-import {WSMsgData} from '../types/contracts/wsMessage.ts'
+import {WsContract} from '../types/contracts/wsContract.ts'
 
 export const Chat = () => {
 	const {user} = useAppSelector(state => state.globalReducer)
 	const [wsInstance, setWsInstance] = useState<WsService | null>(null)
-	const [chatMessages, setChatMessages] = useState<WSMsgData[]>([])
+	const [chatMessages, setChatMessages] = useState<WsContract[]>([])
 	const [input, setInput] = useState<string>('')
 
 	useEffect(() => {
@@ -37,7 +37,7 @@ export const Chat = () => {
 	}
 
 
-	const handleMessage = (data: WSMsgData) => {
+	const handleMessage = (data: WsContract) => {
 		setChatMessages(prevState => [...prevState, data])
 	}
 

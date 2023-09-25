@@ -5,4 +5,5 @@ export const CONSTANTS = {
 	JOIN_CHAT_BUTTON: 'Join chat',
 	NICKNAME_PLACEHOLDER: 'Enter your nickname',
 	GITHUB_LINK: 'https://github.com/z4ffe',
+	WELCOME_MESSAGE: (user: string) => `Welcome to Chatify, ${user}!`,
 }

@@ -1,4 +1,4 @@
-import {EGreetings} from '../types/enum/Greetings.ts'
+import {EGreetings} from '../types/enum/greetings.ts'
 
 export const greetingHandler = (): EGreetings => {
 	const currentHour = new Date().getHours()
