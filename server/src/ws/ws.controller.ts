@@ -9,6 +9,7 @@ export class WsController {
 	constructor(private readonly wsService: WsService, private readonly wsGateway: WsGateway) {
 	}
 
+
 	@Get('/:login')
 	async checkUserExist(@Param() param: UserParam, @Res() res: Response) {
 		const clients = this.wsGateway.clientsList
