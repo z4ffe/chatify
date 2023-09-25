@@ -1,11 +1,8 @@
 import {Controller, Get, HttpStatus, Param, Res} from '@nestjs/common'
 import {Response} from 'express'
-import {WsGateway} from '../ws/ws.gateway'
-import {WsService} from '../ws/ws.service'
-
-interface UserParam {
-	login: string
-}
+import {UserParam} from './interfaces/userParam'
+import {WsGateway} from './ws.gateway'
+import {WsService} from './ws.service'
 
 @Controller('user')
 export class UserController {

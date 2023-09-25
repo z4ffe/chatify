@@ -1,4 +1,3 @@
-import {message as antdMessage} from 'antd'
 import {CONSTANTS} from '../constants/constants.ts'
 import {WSMessage} from '../entities/wsMessage.ts'
 import {globalActions} from '../store/global/globalSlice.ts'
@@ -25,7 +24,6 @@ export class WsService {
 					case 'userOut':
 						return handleMessage(parsedResponse)
 					case 'userExist':
-						antdMessage.open({type: 'error', content: 'User already exist', duration: 5})
 						return store.dispatch(globalActions.resetState())
 					default:
 						break
