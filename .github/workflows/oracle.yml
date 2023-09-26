@@ -13,6 +13,7 @@ jobs:
         with:
           node-version: 20.x
       - name: install
+        working-directory: ./client
         run: yarn
       - name: build
         working-directory: ./client
