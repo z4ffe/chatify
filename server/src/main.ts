@@ -8,6 +8,7 @@ async function bootstrap() {
 	})
 	app.useWebSocketAdapter(new WsAdapter(app))
 	app.enableCors()
+	app.setGlobalPrefix('/api')
 	await app.listen(5005)
 }
 
