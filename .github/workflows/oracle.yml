@@ -51,6 +51,8 @@ jobs:
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
             cd /var/www/chatServer
+            git stash
+            git stash clear
             git pull
             cd client
             rm -rf dist
