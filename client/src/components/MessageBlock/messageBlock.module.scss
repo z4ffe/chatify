@@ -86,3 +86,14 @@
     }
   }
 }
+
+@media only screen and (max-width: 450px) {
+  .messageContainerIn {
+    display: flex;
+    margin: 2px 0 5px 10px;
+  }
+
+  .messageContainerOut {
+    margin-right: 10px;
+  }
+}

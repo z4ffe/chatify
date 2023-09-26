@@ -89,3 +89,35 @@
     text-align: center;
   }
 }
+
+@media only screen and (max-width: 450px) {
+  .loginWrapper {
+    height: 100%;
+    width: 100vw;
+    border-radius: 0;
+
+    .loginHeader {
+
+      height: 100%;
+
+
+      .headerWrapper {
+        .headerIcon {
+          align-self: end;
+          padding-bottom: 20px;
+        }
+
+        .headerTitle {
+          align-self: end;
+          padding-bottom: 20px;
+        }
+      }
+    }
+
+    .loginForm {
+      align-items: center;
+      justify-content: center;
+      height: 400px;
+    }
+  }
+}

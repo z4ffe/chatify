@@ -50,14 +50,14 @@
 
 @media only screen and (max-width: 450px) {
   .headerWrapper {
-    height: 90px;
+    height: 95px;
 
     .headerWrapper__filter {
 
       .logoContainer {
         flex-direction: column;
         gap: 0;
-        padding-left: 10px;
+        padding-left: 20px;
 
         .logoIcon {
           font-size: 40px;

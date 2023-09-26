@@ -18,7 +18,7 @@ export const EmojiComponent: FC<Props> = ({handleEmoji}) => {
 				okText=''
 				okType='text'
 				title={''}
-				description={<EmojiPicker lazyLoadEmojis={true} skinTonesDisabled={true} onEmojiClick={handleEmoji} />}
+				description={<EmojiPicker skinTonesDisabled={true} onEmojiClick={handleEmoji} />}
 			>
 				<Button className={styles.emojiButton} icon={<SmileOutlined className={styles.icon} />}></Button>
 			</Popconfirm>

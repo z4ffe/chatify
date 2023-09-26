@@ -1,0 +1,48 @@
+name: oracle cloud deploy
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: nodejs
+        uses: actions/setup-node@v2
+        with:
+          node-version: 20.x
+      - name: install
+        run: yarn
+      - name: build
+        run: yarn build
+        env:
+          CI: true
+  deploy:
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: pull new version and install modules
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.OC_HOST }}
+          username: ${{ secrets.OC_USER }}
+          key: ${{ secrets.OC_KEY }}
+          port: ${{ secrets.OC_PORT }}
+          script: |
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
+            cd /var/www/chatServer
+            ls
+      - name: create env and launch server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.AWS_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
+            cd /var/www/chatServer
+            ls
