@@ -48,7 +48,6 @@ jobs:
           key: ${{ secrets.OC_KEY }}
           port: ${{ secrets.OC_PORT }}
           script: |
-            sudo -s
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
             cd /var/www/chatServer
