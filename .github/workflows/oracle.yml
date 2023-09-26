@@ -40,7 +40,7 @@ jobs:
     needs: [ build-frontend, build-backend ]
     runs-on: ubuntu-latest
     steps:
-      - name: pull new version and install modules
+      - name: pull and update frontend with backend then restart nginx server
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.OC_HOST }}
@@ -48,19 +48,17 @@ jobs:
           key: ${{ secrets.OC_KEY }}
           port: ${{ secrets.OC_PORT }}
           script: |
+            sudo -s
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
             cd /var/www/chatServer
-            ls
-      - name: create env and launch server
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.AWS_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
-          port: ${{ secrets.SSH_PORT }}
-          script: |
-            export NVM_DIR=~/.nvm
-            source ~/.nvm/nvm.sh
-            cd /var/www/chatServer
-            ls
+            git pull
+            cd client
+            rm -rf dist
+            yarn build
+            cd ../server
+            pm2 stop all 
+            rm -rf dist
+            yarn build
+            cd dist
+            pm2 start main.js --watch
