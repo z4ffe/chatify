@@ -6,8 +6,8 @@ export const loginAnimation = {
 		scale: {
 			type: 'spring',
 			damping: 40,
-			stiffness: 150,
-			restDelta: 0.0001,
+			stiffness: 999,
+			restDelta: 0.001,
 		},
 	},
 }
