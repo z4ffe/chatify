@@ -24,15 +24,8 @@ export const Login = () => {
 	})
 	const userNameField = useWatch({control: control, name: 'userName'})
 
-	const checkUser = async (): Promise<void> => {
-		const result = await LocalStorageHandler.checkUserStatus()
-		if (typeof result === 'string') {
-			dispatch(globalActions.setUserName(result))
-		}
-	}
-
 	useEffect(() => {
-		checkUser()
+		LocalStorageHandler.checkUserStatus()
 	}, [])
 
 	const submitForm = async (values: loginSchemaType) => {

@@ -1,7 +1,10 @@
 import {userService} from '../service/userService.ts'
+import {globalActions} from '../store/global/globalSlice.ts'
+import store from '../store/store.ts'
 
 export class LocalStorageHandler {
 	public static async checkUserStatus() {
+		const reduxStore = store
 		const localUser = this.getUser()
 		if (!localUser) {
 			return false
@@ -11,7 +14,7 @@ export class LocalStorageHandler {
 			this.removeUser()
 			return false
 		}
-		return localUser
+		reduxStore.dispatch(globalActions.setUserName(localUser))
 	}
 
 	public static getUser() {
