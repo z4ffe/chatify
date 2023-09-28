@@ -19,10 +19,6 @@ export const ChatTable: FC<Props> = ({chatMessages}) => {
 		scrollToBottom(scrollAnchorRef)
 	}, [chatMessages])
 
-	if (!chatMessages.length) {
-		return (<div>Type Something</div>)
-	}
-
 	return (
 		<div className={styles.container}>
 			<ChatNotification text={CONSTANTS.WELCOME_MESSAGE(user)} />

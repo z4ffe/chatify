@@ -2,6 +2,7 @@ import {WSMessage} from '../entities/wsMessage.ts'
 import {globalActions} from '../store/global/globalSlice.ts'
 import store from '../store/store.ts'
 import {WsContract} from '../types/contracts/wsContract.ts'
+import {LocalStorageHandler} from '../utils/localStorageHandler.ts'
 
 const WS_URL = import.meta.env.VITE_WS_URL
 
@@ -25,6 +26,7 @@ export class WsService {
 					case 'userOut':
 						return handleMessage(parsedResponse)
 					case 'userExist':
+						LocalStorageHandler.removeUser()
 						return store.dispatch(globalActions.resetState())
 					default:
 						break

@@ -1,10 +1,11 @@
 import {EmojiClickData} from 'emoji-picker-react'
 import {KeyboardEvent, SyntheticEvent, useEffect, useState} from 'react'
-import {ChatTable} from '../components/ChatTable/ChatTable.tsx'
-import {InputPanel} from '../components/InputPanel/InputPanel.tsx'
-import {useAppSelector} from '../lib/redux/typedHooks.ts'
-import {WsService} from '../service/wsService.ts'
-import {WsContract} from '../types/contracts/wsContract.ts'
+import {ChatTable} from '../../components/ChatTable/ChatTable.tsx'
+import {InputPanel} from '../../components/InputPanel/InputPanel.tsx'
+import {useAppSelector} from '../../lib/redux/typedHooks.ts'
+import {WsService} from '../../service/wsService.ts'
+import {WsContract} from '../../types/contracts/wsContract.ts'
+import styles from './chat.module.scss'
 
 export const Chat = () => {
 	const {user} = useAppSelector(state => state.globalReducer)
@@ -48,7 +49,7 @@ export const Chat = () => {
 	}
 
 	return (
-		<div style={{display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between'}}>
+		<div className={styles.chat}>
 			<ChatTable chatMessages={chatMessages} />
 			<InputPanel input={input} handleInput={handleInput} handleEnterKey={handleEnterKey} handleEmoji={handleEmoji} handleSendMsg={handleSendMsg} />
 		</div>

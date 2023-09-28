@@ -11,6 +11,23 @@ interface Props {
 }
 
 export const MessageBlock: FC<Props> = ({type, text, user, date}) => {
+	const highlightUser = (text: string, user: string) => {
+		const splittedText = text.split(' ')
+		const result = splittedText.map((el: string) => {
+			if (el.includes(user)) {
+				if (el.at(-1) !== user.at(-1)) {
+					const lastIndex = el.indexOf(user[user.length - 1])
+					return <span style={{color: 'red', backgroundColor: 'lightgrey'}}>@{user}{el.slice(lastIndex + 1)}</span>
+				} else {
+					return <span style={{color: 'red', backgroundColor: 'lightgrey'}}>@${user}</span>
+				}
+			} else {
+				return el
+			}
+		})
+		return result.join(' ')
+	}
+
 	return (
 		<div className={type === 'in' ? styles.messageContainerOut : styles.messageContainerIn}>
 			<div className={styles.avatarWrapper}>
@@ -19,7 +36,7 @@ export const MessageBlock: FC<Props> = ({type, text, user, date}) => {
 			<div className={styles.messageWrapper}>
 				{user ? <p className={styles.user}>{user}</p> : null}
 				<div className={styles.messageBlock}>
-					<p className={styles.messageText}>{text}</p>
+					<p className={styles.messageText}>{highlightUser(text, user!)}</p>
 				</div>
 				<p className={styles.date}>{new Date(date).toLocaleTimeString(navigator.language, {hour: '2-digit', minute: '2-digit', hour12: false})}</p>
 			</div>

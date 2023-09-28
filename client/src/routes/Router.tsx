@@ -2,7 +2,7 @@ import Title from 'antd/es/typography/Title'
 import {AnimatePresence} from 'framer-motion'
 import {Navigate, Route, Routes} from 'react-router-dom'
 import {useAppSelector} from '../lib/redux/typedHooks.ts'
-import {Chat} from '../pages/Chat.tsx'
+import {Chat} from '../pages/Chat/Chat.tsx'
 import {Login} from '../pages/Login/Login.tsx'
 
 export const Router = () => {
