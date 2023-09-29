@@ -6,7 +6,6 @@
   border-radius: 5px;
   box-shadow: 0 30px 60px 0 rgba(70, 41, 242, 0.14);
   overflow: hidden;
-  border-bottom: 15px solid #4560F7;
   grid-area: header;
   background-color: $backgroundColor;
 
@@ -34,7 +33,7 @@
 
       .headerTitle {
         font-size: 30px;
-        margin-top: 5px;
+        margin-top: 12px;
         color: #fff;
         font-weight: 700;
         text-shadow: 5px 5px 20px blue;
@@ -93,7 +92,7 @@
     align-items: center;
     gap: 7px;
     padding: 7px 15px;
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
   }
 }
 

@@ -72,6 +72,7 @@ export const AvatarPicker: FC<Props> = ({control, setValue}) => {
 	return (
 		<div className={styles.avatarPicker}>
 			<Popover open={showPicker} placement='top'
+						arrow={false}
 						title={title}
 						content={avatarListContent}
 						trigger='click'>
