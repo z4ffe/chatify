@@ -3,10 +3,10 @@
   flex-direction: column;
   height: 100%;
   justify-content: space-between;
+  grid-area: main;
 
   .chatTableWrapper {
     display: flex;
-    height: 100%;
-    justify-content: space-between;
+    background-color: #fff;
   }
 }

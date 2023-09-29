@@ -1,9 +1,10 @@
 .headerWrapper {
   display: flex;
   width: 100%;
-  height: $headerHeight;
+  min-height: var(--header-height);
   background: $mainBackgroundGradient;
   overflow: hidden;
+  grid-area: header;
 
   .headerWrapper__filter {
     display: flex;
@@ -63,8 +64,9 @@
     .headerWrapper__filter {
 
       .logoContainer {
-        flex-direction: column;
-        gap: 0;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
         padding-left: 20px;
 
         .logoIcon {

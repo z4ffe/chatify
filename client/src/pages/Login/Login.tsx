@@ -1,13 +1,15 @@
-import {WechatOutlined} from '@ant-design/icons'
+import {CheckOutlined, CloseOutlined, SendOutlined, WechatOutlined} from '@ant-design/icons'
 import {zodResolver} from '@hookform/resolvers/zod'
-import {Button, Form, Input, message} from 'antd'
+import {Button, Input, message, Switch} from 'antd'
 import Title from 'antd/es/typography/Title'
 import {motion} from 'framer-motion'
 import {useEffect, useState} from 'react'
-import {Controller, useForm, useWatch} from 'react-hook-form'
+import {Controller, useForm} from 'react-hook-form'
 import {CONSTANTS} from '../../constants/constants.ts'
 import {useAppDispatch} from '../../lib/redux/typedHooks.ts'
 import {userService} from '../../services/userService.ts'
+import {AvatarPicker} from '../../shared/AvatarPicker/AvatarPicker.tsx'
+import {ErrorPanel} from '../../shared/ErrorBadge/ErrorPanel.tsx'
 import {globalActions} from '../../store/global/globalSlice.ts'
 import {LocalStorageHandler} from '../../utils/localStorageHandler.ts'
 import {loginSchema, loginSchemaType} from '../../validations/loginSchema.ts'
@@ -18,11 +20,10 @@ export const Login = () => {
 	const dispatch = useAppDispatch()
 	const [btnLoad, setBtnLoad] = useState(false)
 	const [messageApi, contextHolder] = message.useMessage()
-	const {handleSubmit, control, reset, formState: {errors}} = useForm<loginSchemaType>({
+	const {handleSubmit, control, reset, setValue, formState: {errors}} = useForm<loginSchemaType>({
 		defaultValues: {userName: ''},
 		resolver: zodResolver(loginSchema),
 	})
-	const userNameField = useWatch({control: control, name: 'userName'})
 
 	useEffect(() => {
 		void LocalStorageHandler.checkUserStatus()
@@ -52,17 +53,28 @@ export const Login = () => {
 				</div>
 			</div>
 			<div className={styles.loginForm}>
-				<Title className={styles.formTitle}>{CONSTANTS.TITLE_LOGIN_WINDOW}</Title>
 				<div className={styles.formWrapper}>
-					<Form className={styles.form} onFinish={handleSubmit(submitForm)}>
-						<Form.Item required label='' help={errors.userName?.message} validateStatus={errors.userName ? 'error' : ''}>
-							<Controller control={control} name='userName' render={({field}) => (
-								<Input {...field} autoFocus placeholder={CONSTANTS.NICKNAME_PLACEHOLDER} className={styles.nameInput} />
-							)} />
-						</Form.Item>
-						<Button loading={btnLoad} disabled={!userNameField.length} className={styles.submitButton} htmlType='submit'>{CONSTANTS.JOIN_CHAT_BUTTON(btnLoad)}</Button>
-					</Form>
+					<form className={styles.form} onSubmit={handleSubmit(submitForm)}>
+						<AvatarPicker control={control} setValue={setValue} />
+						<Controller control={control} name='userName' render={({field}) => (
+							<div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: '400px', height: '40px'}}>
+								<Input {...field} autoFocus placeholder={CONSTANTS.NICKNAME_PLACEHOLDER} className={styles.nameInput} status={errors.userName ? 'error' : ''} />
+								<ErrorPanel errors={errors} />
+							</div>
+						)} />
+						<Button icon={<SendOutlined />} loading={btnLoad} className={styles.submitButton} htmlType='submit'>{CONSTANTS.JOIN_CHAT_BUTTON(btnLoad)}</Button>
+					</form>
 				</div>
+			</div>
+			<div className={styles.footer}>
+				<p style={{fontSize: '13px'}}>Save session</p>
+				<Switch
+					size='small'
+					style={{width: '35px', background: '#4560F7'}}
+					checkedChildren={<CheckOutlined />}
+					unCheckedChildren={<CloseOutlined />}
+					defaultChecked
+				/>
 			</div>
 		</motion.div>
 	)

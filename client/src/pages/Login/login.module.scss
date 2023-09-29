@@ -7,6 +7,8 @@
   box-shadow: 0 30px 60px 0 rgba(70, 41, 242, 0.14);
   overflow: hidden;
   border-bottom: 15px solid #4560F7;
+  grid-area: header;
+  background-color: $backgroundColor;
 
   .loginHeader {
     width: 100%;
@@ -45,21 +47,19 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    background-color: $backgroundColor;
+    padding: 20px 0;
 
     .formTitle {
-      margin-top: 30px;
       text-align: center;
       color: $blackText;
-      font-size: 20px;
+      font-size: 17px;
       font-weight: 500;
       text-shadow: 2px 2px 5px #bebebe;
     }
 
     .formWrapper {
-      margin-top: 20px;
-      margin-bottom: 30px;
       display: flex;
+      flex-direction: column;
       width: 100%;
       justify-content: center;
 
@@ -68,23 +68,41 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        gap: 12px;
       }
 
       .submitButton {
-        margin-top: 5px;
         min-width: 120px;
         width: fit-content;
-        color: $blackText;
+        color: #fff;
         text-transform: uppercase;
         font-weight: 500;
+        background: #4560F7;
+        box-shadow: rgba(0, 0, 0, 0.15) 0 5px 15px 0;
+
+        &:hover {
+          background: #2b0fc2;
+        }
       }
     }
+  }
+
+  .footer {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 15px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
   }
 }
 
 .nameInput {
-  width: 250px;
+  margin-bottom: auto;
+  width: 60%;
   text-align: center;
+  position: relative;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 1px 2px 0;
 
   &::placeholder {
     text-align: center;

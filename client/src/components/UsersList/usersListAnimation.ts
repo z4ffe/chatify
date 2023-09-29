@@ -1,8 +1,5 @@
 export const usersListAnimation = {
-	initial: {opacity: 0.7, scale: 1, x: 400},
-	animate: {opacity: 1, scale: 1, x: 0},
-	exit: {opacity: 0.7, scale: 1, x: 400},
-	transition: {
-		duration: 0.3,
-	},
+	initial: {scale: 1, x: 400, duration: 0.2},
+	animate: {scale: 1, x: 0, duration: 0.2},
+	exit: {scale: 1, x: 4000, duration: 2},
 }

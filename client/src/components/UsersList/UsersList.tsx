@@ -11,7 +11,7 @@ export const UsersList = () => {
 	const {showList} = useContext(UsersListContext)
 
 	return (
-		<AnimatePresence mode='wait'>
+		<AnimatePresence mode='wait' initial={false}>
 			{showList && <motion.div {...usersListAnimation} className={styles.usersList}>
 				{clientsList.map((client) => (
 					<UserBox key={client} user={client} />

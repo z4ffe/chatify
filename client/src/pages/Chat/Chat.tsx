@@ -1,7 +1,9 @@
 import {EmojiClickData} from 'emoji-picker-react'
+import {AnimatePresence, motion} from 'framer-motion'
 import {KeyboardEvent, SyntheticEvent, useEffect, useState} from 'react'
 import {ChatTable} from '../../components/ChatTable/ChatTable.tsx'
 import {UsersList} from '../../components/UsersList/UsersList.tsx'
+import {usersListAnimation} from '../../components/UsersList/usersListAnimation.ts'
 import {useAppSelector} from '../../lib/redux/typedHooks.ts'
 import {WsService} from '../../services/wsService.ts'
 import {InputPanel} from '../../shared/InputPanel/InputPanel.tsx'
@@ -52,10 +54,12 @@ export const Chat = () => {
 
 	return (
 		<div className={styles.chat}>
-			<div className={styles.chatTableWrapper}>
-				<ChatTable chatMessages={chatMessages} />
-				<UsersList />
-			</div>
+			<AnimatePresence>
+				<motion.div {...usersListAnimation} className={styles.chatTableWrapper}>
+					<ChatTable chatMessages={chatMessages} />
+					<UsersList />
+				</motion.div>
+			</AnimatePresence>
 			<InputPanel input={input} handleInput={handleInput} handleEnterKey={handleEnterKey} handleEmoji={handleEmoji} handleSendMsg={handleSendMsg} />
 		</div>
 	)
