@@ -5,6 +5,7 @@ import {readyStateHandler} from '../../utils/readyStateHandler.ts'
 interface IGlobalSlice {
 	user: string
 	onlineUsers: number
+	clientsList: string[]
 	status: EStatus
 	theme: 'light' | 'dark'
 	language: 'en' | 'ru'
@@ -14,6 +15,7 @@ interface IGlobalSlice {
 const initialState: IGlobalSlice = {
 	user: '',
 	onlineUsers: 0,
+	clientsList: [],
 	status: EStatus.connecting,
 	theme: 'light',
 	language: 'en',
@@ -26,6 +28,9 @@ const globalSlice = createSlice({
 	reducers: {
 		setUserName: (state, action) => {
 			state.user = action.payload
+		},
+		setClientsList: (state, action) => {
+			state.clientsList = action.payload
 		},
 		changeNetworkStatus: (state, action) => {
 			if (action.payload === WebSocket.CLOSED) {

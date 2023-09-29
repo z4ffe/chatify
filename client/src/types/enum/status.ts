@@ -1,5 +1,5 @@
 export enum EStatus {
-	'disconnected' = 'Disconnected',
-	'connected' = 'Connected',
-	'connecting' = 'Connecting',
+	'disconnected' = 'Network status: Disconnected',
+	'connected' = 'Network status: Connected',
+	'connecting' = 'Network status: Connecting',
 }

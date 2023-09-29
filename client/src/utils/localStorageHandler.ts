@@ -1,4 +1,5 @@
-import {userService} from '../service/userService.ts'
+import {message} from 'antd'
+import {userService} from '../services/userService.ts'
 import {globalActions} from '../store/global/globalSlice.ts'
 import store from '../store/store.ts'
 
@@ -26,6 +27,9 @@ export class LocalStorageHandler {
 	}
 
 	public static removeUser() {
-		return localStorage.removeItem('login')
+		const reduxStore = store
+		localStorage.removeItem('login')
+		reduxStore.dispatch(globalActions.setUserName(''))
+		void message.success('You have successfully logged out')
 	}
 }

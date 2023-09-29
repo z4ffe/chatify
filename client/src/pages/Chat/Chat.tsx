@@ -1,9 +1,10 @@
 import {EmojiClickData} from 'emoji-picker-react'
 import {KeyboardEvent, SyntheticEvent, useEffect, useState} from 'react'
 import {ChatTable} from '../../components/ChatTable/ChatTable.tsx'
-import {InputPanel} from '../../components/InputPanel/InputPanel.tsx'
+import {UsersList} from '../../components/UsersList/UsersList.tsx'
 import {useAppSelector} from '../../lib/redux/typedHooks.ts'
-import {WsService} from '../../service/wsService.ts'
+import {WsService} from '../../services/wsService.ts'
+import {InputPanel} from '../../shared/InputPanel/InputPanel.tsx'
 import {WsContract} from '../../types/contracts/wsContract.ts'
 import styles from './chat.module.scss'
 
@@ -19,7 +20,8 @@ export const Chat = () => {
 		setWsInstance(wsService)
 		document.title = `Chatify: ${user}`
 		return () => {
-			wsInstance?.closeConnection()
+			document.title = `Chatify`
+			wsService.closeConnection()
 		}
 	}, [])
 
@@ -50,7 +52,10 @@ export const Chat = () => {
 
 	return (
 		<div className={styles.chat}>
-			<ChatTable chatMessages={chatMessages} />
+			<div className={styles.chatTableWrapper}>
+				<ChatTable chatMessages={chatMessages} />
+				<UsersList />
+			</div>
 			<InputPanel input={input} handleInput={handleInput} handleEnterKey={handleEnterKey} handleEmoji={handleEmoji} handleSendMsg={handleSendMsg} />
 		</div>
 	)

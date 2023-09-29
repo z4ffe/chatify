@@ -1,6 +1,6 @@
 import {ThemeConfig} from 'antd'
 
-export const theme: ThemeConfig = {
+export const lightTheme: ThemeConfig = {
 	token: {
 		colorPrimary: '#bbbbbb',
 		borderRadius: 5,

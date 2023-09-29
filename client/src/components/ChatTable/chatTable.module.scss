@@ -10,7 +10,7 @@
   padding-top: 10px;
 }
 
-@media only screen and (max-width: 450px) {
+@media only screen and (max-width: 550px) {
   .container {
     max-height: calc(100vh - $headerHeight - $footerHeight + 10px);
   }

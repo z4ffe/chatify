@@ -20,7 +20,8 @@ export class WsService {
 					case 'message':
 						return handleMessage(parsedResponse)
 					case 'onlineUsers':
-						return store.dispatch(globalActions.setOnlineUsers(parsedResponse.data.onlineUsers))
+						store.dispatch(globalActions.setOnlineUsers(parsedResponse.data.onlineUsers))
+						return store.dispatch(globalActions.setClientsList(parsedResponse.data.clientsList))
 					case 'userIn':
 						return handleMessage(parsedResponse)
 					case 'userOut':
@@ -45,6 +46,7 @@ export class WsService {
 	}
 
 	closeConnection() {
+		console.log('asd')
 		this.socket.close()
 		store.dispatch(globalActions.changeNetworkStatus(this.socket.CLOSED))
 	}

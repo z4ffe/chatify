@@ -7,10 +7,10 @@ import {useEffect, useState} from 'react'
 import {Controller, useForm, useWatch} from 'react-hook-form'
 import {CONSTANTS} from '../../constants/constants.ts'
 import {useAppDispatch} from '../../lib/redux/typedHooks.ts'
-import {userService} from '../../service/userService.ts'
+import {userService} from '../../services/userService.ts'
 import {globalActions} from '../../store/global/globalSlice.ts'
 import {LocalStorageHandler} from '../../utils/localStorageHandler.ts'
-import {loginSchema, loginSchemaType} from '../../validation/loginSchema.ts'
+import {loginSchema, loginSchemaType} from '../../validations/loginSchema.ts'
 import styles from './login.module.scss'
 import {loginAnimation} from './loginAnimation.ts'
 
@@ -25,7 +25,7 @@ export const Login = () => {
 	const userNameField = useWatch({control: control, name: 'userName'})
 
 	useEffect(() => {
-		LocalStorageHandler.checkUserStatus()
+		void LocalStorageHandler.checkUserStatus()
 	}, [])
 
 	const submitForm = async (values: loginSchemaType) => {

@@ -56,7 +56,11 @@ export class WsService {
 	}
 
 	sendOnlineCount(clients: ClientsList) {
-		const payload = new WsMessage('onlineUsers', {user: '', onlineUsers: clients.size})
+		let clientsList = []
+		for (const client of clients.values()) {
+			clientsList.push(client.user)
+		}
+		const payload = new WsMessage('onlineUsers', {user: '', onlineUsers: clients.size, clientsList: clientsList})
 		clients.forEach((_, client) => {
 			client.send(JSON.stringify(payload))
 		})

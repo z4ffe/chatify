@@ -1,10 +1,10 @@
 import {FC, useEffect, useRef} from 'react'
 import {CONSTANTS} from '../../constants/constants.ts'
 import {useAppSelector} from '../../lib/redux/typedHooks.ts'
+import {ChatNotification} from '../../shared/ChatNotification/ChatNotification.tsx'
+import {MessageBlock} from '../../shared/MessageBlock/MessageBlock.tsx'
 import {WsContract} from '../../types/contracts/wsContract.ts'
 import {scrollToBottom} from '../../utils/scrollToBottom.ts'
-import {ChatNotification} from '../ChatNotification/ChatNotification.tsx'
-import {MessageBlock} from '../MessageBlock/MessageBlock.tsx'
 import styles from './chatTable.module.scss'
 
 interface Props {

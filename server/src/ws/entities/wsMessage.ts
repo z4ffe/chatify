@@ -5,6 +5,7 @@ export interface WSPayload {
 	message?: string
 	date?: Date
 	onlineUsers?: number
+	clientsList?: string[]
 	error?: string
 }
 
