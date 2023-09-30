@@ -38,6 +38,7 @@ jobs:
           CI: true
   deploy:
     needs: [ build-frontend, build-backend ]
+    environment: Oracle Cloud
     runs-on: ubuntu-latest
     steps:
       - name: pull and update frontend with backend then restart nginx server
