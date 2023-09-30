@@ -57,10 +57,12 @@ jobs:
             git pull
             cd client
             rm -rf dist
+            yarn install
             yarn build
             cd ../server
             pm2 stop all 
             rm -rf dist
+            yarn install
             yarn build
             cd dist
             pm2 start main.js --watch
