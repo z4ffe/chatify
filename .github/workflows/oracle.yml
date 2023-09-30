@@ -38,7 +38,9 @@ jobs:
           CI: true
   deploy:
     needs: [ build-frontend, build-backend ]
-    environment: Oracle Cloud
+    environment:
+      name: Oracle Cloud
+      url: http://129.159.129.76
     runs-on: ubuntu-latest
     steps:
       - name: pull and update frontend with backend then restart nginx server
