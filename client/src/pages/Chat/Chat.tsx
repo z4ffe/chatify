@@ -1,26 +1,28 @@
 import {EmojiClickData} from 'emoji-picker-react'
-import {AnimatePresence, motion} from 'framer-motion'
+import {AnimatePresence} from 'framer-motion'
 import {KeyboardEvent, SyntheticEvent, useEffect, useState} from 'react'
 import {ChatTable} from '../../components/ChatTable/ChatTable.tsx'
 import {UsersList} from '../../components/UsersList/UsersList.tsx'
-import {usersListAnimation} from '../../components/UsersList/usersListAnimation.ts'
 import {useAppSelector} from '../../lib/redux/typedHooks.ts'
 import {WsService} from '../../services/wsService.ts'
 import {InputPanel} from '../../shared/InputPanel/InputPanel.tsx'
-import {WsContract} from '../../types/contracts/wsContract.ts'
+import {MessageStruct} from '../../types/contracts/messageStruct.ts'
 import styles from './chat.module.scss'
 
 export const Chat = () => {
 	const {user} = useAppSelector(state => state.globalReducer)
 	const [wsInstance, setWsInstance] = useState<WsService | null>(null)
-	const [chatMessages, setChatMessages] = useState<WsContract[]>([])
+	const [chatMessages, setChatMessages] = useState<MessageStruct[]>([])
 	const [input, setInput] = useState<string>('')
 
 	useEffect(() => {
-		const wsService = new WsService()
-		wsService.openConnection(handleMessage, user)
-		setWsInstance(wsService)
-		document.title = `Chatify: ${user}`
+		let wsService: WsService
+		if (user) {
+			wsService = new WsService()
+			wsService.openConnection(handleMessage, user)
+			setWsInstance(wsService)
+			document.title = `Chatify: ${user.name}`
+		}
 		return () => {
 			document.title = `Chatify`
 			wsService.closeConnection()
@@ -28,8 +30,8 @@ export const Chat = () => {
 	}, [])
 
 	const handleSendMsg = () => {
-		if (input.length) {
-			wsInstance?.sendMessage(user, input)
+		if (input.length && user && wsInstance) {
+			wsInstance.sendMessage(user, input)
 			setInput('')
 		}
 	}
@@ -40,7 +42,7 @@ export const Chat = () => {
 		}
 	}
 
-	const handleMessage = (data: WsContract) => {
+	const handleMessage = (data: MessageStruct) => {
 		setChatMessages(prevState => [...prevState, data])
 	}
 
@@ -55,10 +57,10 @@ export const Chat = () => {
 	return (
 		<div className={styles.chat}>
 			<AnimatePresence>
-				<motion.div {...usersListAnimation} className={styles.chatTableWrapper}>
+				<div className={styles.chatTableWrapper}>
 					<ChatTable chatMessages={chatMessages} />
 					<UsersList />
-				</motion.div>
+				</div>
 			</AnimatePresence>
 			<InputPanel input={input} handleInput={handleInput} handleEnterKey={handleEnterKey} handleEmoji={handleEmoji} handleSendMsg={handleSendMsg} />
 		</div>

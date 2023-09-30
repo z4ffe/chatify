@@ -13,7 +13,7 @@ export class WsController {
 	@Get('/:login')
 	async checkUserExist(@Param() param: UserParam, @Res() res: Response) {
 		const clients = this.wsGateway.clientsList
-		const userExist = this.wsService.findClientByUser(clients, param.login)
+		const userExist = this.wsService.findClientByUser(clients, {name: param.login, avatar: ''})
 		if (userExist) {
 			res.status(HttpStatus.CONFLICT).send({message: 'User already exist'})
 		}

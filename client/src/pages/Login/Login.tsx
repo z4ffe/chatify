@@ -1,15 +1,18 @@
-import {CheckOutlined, CloseOutlined, SendOutlined, WechatOutlined} from '@ant-design/icons'
+import {SendOutlined, WechatOutlined} from '@ant-design/icons'
 import {zodResolver} from '@hookform/resolvers/zod'
-import {Button, Input, message, Switch} from 'antd'
+import {Button, Input, message} from 'antd'
 import Title from 'antd/es/typography/Title'
 import {motion} from 'framer-motion'
 import {useEffect, useState} from 'react'
 import {Controller, useForm} from 'react-hook-form'
 import {CONSTANTS} from '../../constants/constants.ts'
+import {User} from '../../entities/user.ts'
 import {useAppDispatch} from '../../lib/redux/typedHooks.ts'
 import {userService} from '../../services/userService.ts'
+import {avatarList} from '../../shared/AvatarPicker/avatarData.ts'
 import {AvatarPicker} from '../../shared/AvatarPicker/AvatarPicker.tsx'
 import {ErrorPanel} from '../../shared/ErrorBadge/ErrorPanel.tsx'
+import {SessionSwitch} from '../../shared/SessionSwtich/SessionSwitch.tsx'
 import {globalActions} from '../../store/global/globalSlice.ts'
 import {LocalStorageHandler} from '../../utils/localStorageHandler.ts'
 import {loginSchema, loginSchemaType} from '../../validations/loginSchema.ts'
@@ -19,9 +22,10 @@ import {loginAnimation} from './loginAnimation.ts'
 export const Login = () => {
 	const dispatch = useAppDispatch()
 	const [btnLoad, setBtnLoad] = useState(false)
+	const [saveSession, setSaveSession] = useState(true)
 	const [messageApi, contextHolder] = message.useMessage()
 	const {handleSubmit, control, reset, setValue, formState: {errors}} = useForm<loginSchemaType>({
-		defaultValues: {userName: ''},
+		defaultValues: {userName: '', avatar: avatarList[0].src},
 		resolver: zodResolver(loginSchema),
 	})
 
@@ -31,16 +35,23 @@ export const Login = () => {
 
 	const submitForm = async (values: loginSchemaType) => {
 		setBtnLoad(true)
-		const userExist = await userService.checkUser(values.userName)
+		const userExist = await userService.checkUser({name: values.userName, avatar: values.avatar})
 		if (userExist) {
 			messageApi.error({type: 'error', content: 'User with this name already in chat', duration: 5})
 			setBtnLoad(false)
 			return reset()
 		}
-		LocalStorageHandler.addUser(values.userName)
-		dispatch(globalActions.setUserName(values.userName))
+		const user = new User(values.userName, values.avatar)
+		if (saveSession) {
+			LocalStorageHandler.addUser(user)
+		}
+		dispatch(globalActions.setUser(user))
 		setBtnLoad(false)
 		return reset()
+	}
+
+	const handleSession = () => {
+		setSaveSession(!saveSession)
 	}
 
 	return (
@@ -67,14 +78,7 @@ export const Login = () => {
 				</div>
 			</div>
 			<div className={styles.footer}>
-				<p style={{fontSize: '13px'}}>Save session</p>
-				<Switch
-					size='small'
-					style={{width: '35px', background: '#4560F7'}}
-					checkedChildren={<CheckOutlined />}
-					unCheckedChildren={<CloseOutlined />}
-					defaultChecked
-				/>
+				<SessionSwitch handleSession={handleSession} />
 			</div>
 		</motion.div>
 	)

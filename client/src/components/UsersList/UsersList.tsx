@@ -14,7 +14,7 @@ export const UsersList = () => {
 		<AnimatePresence mode='wait' initial={false}>
 			{showList && <motion.div {...usersListAnimation} className={styles.usersList}>
 				{clientsList.map((client) => (
-					<UserBox key={client} user={client} />
+					<UserBox key={client.name} user={client.name} src={client.avatar} />
 				))}
 			</motion.div>}
 		</AnimatePresence>

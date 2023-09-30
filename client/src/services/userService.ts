@@ -1,9 +1,10 @@
+import {User} from '../entities/user.ts'
 import {apiInstance} from '../lib/axios/apiInstance.ts'
 
 class UserService {
-	async checkUser(login: string) {
+	async checkUser({name}: User) {
 		try {
-			const response = await apiInstance.get(`/user/${login}`)
+			const response = await apiInstance.get(`/user/${name}`)
 			return response.status !== 200
 		} catch (error) {
 			return true

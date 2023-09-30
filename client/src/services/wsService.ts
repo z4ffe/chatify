@@ -1,7 +1,8 @@
-import {WSMessage} from '../entities/wsMessage.ts'
+import {Message} from '../entities/message.ts'
+import {User} from '../entities/user.ts'
 import {globalActions} from '../store/global/globalSlice.ts'
 import store from '../store/store.ts'
-import {WsContract} from '../types/contracts/wsContract.ts'
+import {MessageStruct} from '../types/contracts/messageStruct.ts'
 import {LocalStorageHandler} from '../utils/localStorageHandler.ts'
 
 const WS_URL = import.meta.env.VITE_WS_URL
@@ -10,12 +11,12 @@ export class WsService {
 	constructor(private socket: WebSocket = new WebSocket(WS_URL)) {
 	}
 
-	openConnection(handleMessage: (data: WsContract) => void, user: string) {
+	openConnection(handleMessage: (data: MessageStruct) => void, user: User) {
 		this.socket.onopen = () => {
-			const userData = new WSMessage('userData', {user})
+			const userData = new Message('userData', {user})
 			this.socket.send(JSON.stringify(userData))
 			this.socket.onmessage = (message) => {
-				const parsedResponse: WsContract = JSON.parse(message.data)
+				const parsedResponse: MessageStruct = JSON.parse(message.data)
 				switch (parsedResponse.event) {
 					case 'message':
 						return handleMessage(parsedResponse)
@@ -40,13 +41,12 @@ export class WsService {
 		}
 	}
 
-	sendMessage(user: string, message: string) {
-		const newMessage = new WSMessage('message', {user, message})
+	sendMessage(user: User, message: string) {
+		const newMessage = new Message('message', {user, message})
 		this.socket.send(JSON.stringify(newMessage))
 	}
 
 	closeConnection() {
-		console.log('asd')
 		this.socket.close()
 		store.dispatch(globalActions.changeNetworkStatus(this.socket.CLOSED))
 	}

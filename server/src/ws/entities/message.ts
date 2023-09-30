@@ -1,7 +1,9 @@
+import {User} from './user'
+
 export type WSEvents = 'message' | 'onlineUsers' | 'userIn' | 'userOut' | 'userData' | 'userExist'
 
-export interface WSPayload {
-	user: string
+export interface DataStruct {
+	user?: User
 	message?: string
 	date?: Date
 	onlineUsers?: number
@@ -9,17 +11,17 @@ export interface WSPayload {
 	error?: string
 }
 
-export interface WsContract {
+export interface MessageStruct {
 	event: WSEvents
-	data: WSPayload
+	data: DataStruct
 }
 
 
-export class WsMessage implements WsContract {
+export class Message implements MessageStruct {
 	event: WSEvents
-	data: WSPayload
+	data: DataStruct
 
-	constructor(event: WSEvents, data: WSPayload) {
+	constructor(event: WSEvents, data: DataStruct) {
 		this.event = event
 		this.data = data
 	}

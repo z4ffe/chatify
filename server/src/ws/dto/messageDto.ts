@@ -1,9 +1,9 @@
 import {IsDate, IsNotEmpty, IsString} from 'class-validator'
+import {User} from '../entities/user'
 
 export class DataDto {
 	@IsNotEmpty()
-	@IsString()
-	user: string
+	user?: User
 
 	@IsNotEmpty()
 	@IsString()

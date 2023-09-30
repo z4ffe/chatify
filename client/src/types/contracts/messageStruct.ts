@@ -1,7 +1,9 @@
+import {User} from '../../entities/user.ts'
+
 export type WSEvents = 'message' | 'onlineUsers' | 'userIn' | 'userOut' | 'userData' | 'userExist'
 
-export interface WSPayload {
-	user: string
+export interface DataStruct {
+	user: User
 	message?: string
 	date?: string
 	onlineUsers?: number
@@ -9,7 +11,7 @@ export interface WSPayload {
 	error?: string
 }
 
-export interface WsContract {
+export interface MessageStruct {
 	event: WSEvents
-	data: WSPayload
+	data: DataStruct
 }

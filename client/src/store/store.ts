@@ -5,6 +5,13 @@ const store = configureStore({
 	reducer: {
 		globalReducer,
 	},
+	middleware: (getDefaultMiddleware) =>
+		getDefaultMiddleware({
+			serializableCheck: {
+				ignoredPaths: ['globalReducer'],
+				ignoredActions: ['global/setUser'],
+			},
+		}),
 })
 
 export default store

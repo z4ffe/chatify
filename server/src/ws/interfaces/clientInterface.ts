@@ -1,1 +1,3 @@
-export type ClientsList = Map<WebSocket, {user: string}>
+import {User} from '../entities/user'
+
+export type ClientsList = Map<WebSocket, User>

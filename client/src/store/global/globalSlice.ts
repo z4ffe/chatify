@@ -1,11 +1,12 @@
 import {createSlice} from '@reduxjs/toolkit'
+import {User} from '../../entities/user.ts'
 import {EStatus} from '../../types/enum/status.ts'
 import {readyStateHandler} from '../../utils/readyStateHandler.ts'
 
 interface IGlobalSlice {
-	user: string
+	user: User | null
 	onlineUsers: number
-	clientsList: string[]
+	clientsList: User[]
 	status: EStatus
 	theme: 'light' | 'dark'
 	language: 'en' | 'ru'
@@ -13,7 +14,7 @@ interface IGlobalSlice {
 }
 
 const initialState: IGlobalSlice = {
-	user: '',
+	user: null,
 	onlineUsers: 0,
 	clientsList: [],
 	status: EStatus.connecting,
@@ -26,15 +27,18 @@ const globalSlice = createSlice({
 	name: 'global',
 	initialState: initialState,
 	reducers: {
-		setUserName: (state, action) => {
-			state.user = action.payload
+		setUser: (state, action) => {
+			state.user = new User(action.payload.name, action.payload.avatar)
+		},
+		removeUser: (state) => {
+			state.user = null
 		},
 		setClientsList: (state, action) => {
 			state.clientsList = action.payload
 		},
 		changeNetworkStatus: (state, action) => {
 			if (action.payload === WebSocket.CLOSED) {
-				state.user = ''
+				state.user = initialState.user
 			} else {
 				state.status = readyStateHandler(action.payload)
 			}

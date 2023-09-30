@@ -1,6 +1,7 @@
 import {Injectable, Logger} from '@nestjs/common'
 import {DataDto, MessageDto} from './dto/messageDto'
-import {WsMessage} from './entities/wsMessage'
+import {Message} from './entities/message'
+import {User} from './entities/user'
 import {ClientsList} from './interfaces/clientInterface'
 
 @Injectable()
@@ -8,18 +9,18 @@ export class WsService {
 	private readonly logger = new Logger('WsService Logger')
 	private readonly maxMessageHistory = 30
 
-	addClientToList(clients: ClientsList, client: WebSocket, user: string) {
+	addClientToList(clients: ClientsList, client: WebSocket, user: User) {
 		const userExist = this.findClientByUser(clients, user)
 		if (userExist) {
-			const payload = new WsMessage('userExist', {user, error: 'User already exist'})
+			const payload = new Message('userExist', {user, error: 'User already exist'})
 			client.send(JSON.stringify(payload))
 			return client.close()
 		}
-		const payload = new WsMessage('userIn', {user: user})
+		const payload = new Message('userIn', {user: user})
 		clients.forEach((_, client) => {
 			client.send(JSON.stringify(payload))
 		})
-		clients.set(client, {user})
+		clients.set(client, user)
 	}
 
 	sendMessageForClient(client: WebSocket, data: MessageDto[]) {
@@ -32,14 +33,14 @@ export class WsService {
 
 	sendMessageForAllClients(clients: ClientsList, payload: DataDto, messageList: MessageDto[]) {
 		this.messageListHandler(payload, messageList)
-		const newMessage = new WsMessage('message', {user: payload.user, message: payload.message, date: new Date()})
+		const newMessage = new Message('message', {user: payload.user, message: payload.message, date: new Date()})
 		clients.forEach((_, client) => {
 			client.send(JSON.stringify(newMessage))
 		})
 	}
 
 	messageListHandler(payload: DataDto, messageList: MessageDto[]) {
-		const newMessage = new WsMessage('message', {user: payload.user, message: payload.message, date: new Date()})
+		const newMessage = new Message('message', {user: payload.user, message: payload.message, date: new Date()})
 		if (messageList.length > this.maxMessageHistory) {
 			messageList.shift()
 			return messageList.push(newMessage)
@@ -48,7 +49,7 @@ export class WsService {
 	}
 
 	removeClient(clients: ClientsList, currentClient: WebSocket) {
-		const newMessage = new WsMessage('userOut', clients.get(currentClient))
+		const newMessage = new Message('userOut', {user: clients.get(currentClient)})
 		clients.forEach((_, client) => {
 			client.send(JSON.stringify(newMessage))
 		})
@@ -58,18 +59,18 @@ export class WsService {
 	sendOnlineCount(clients: ClientsList) {
 		let clientsList = []
 		for (const client of clients.values()) {
-			clientsList.push(client.user)
+			clientsList.push(client)
 		}
-		const payload = new WsMessage('onlineUsers', {user: '', onlineUsers: clients.size, clientsList: clientsList})
+		const payload = new Message('onlineUsers', {user: {name: '', avatar: ''}, onlineUsers: clients.size, clientsList: clientsList})
 		clients.forEach((_, client) => {
 			client.send(JSON.stringify(payload))
 		})
 	}
 
-	findClientByUser(clients: ClientsList, user: string) {
+	findClientByUser(clients: ClientsList, user: User) {
 		let userExist = false
 		clients.forEach((currentUser, _) => {
-			if (currentUser.user === user) {
+			if (currentUser.name === user.name) {
 				userExist = true
 			}
 		})

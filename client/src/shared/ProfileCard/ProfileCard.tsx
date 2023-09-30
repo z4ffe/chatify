@@ -14,7 +14,7 @@ export const ProfileCard: FC = () => {
 	const {handleShowList} = useContext(UsersListContext)
 
 	return (
-		<Card
+		user && <Card
 			size={'small'}
 			style={{width: 300, borderRadius: 5}}
 			actions={[
@@ -32,8 +32,8 @@ export const ProfileCard: FC = () => {
 			]}
 		>
 			<Meta
-				avatar={<Avatar src='https://xsgames.co/randomusers/avatar.php?g=pixel' />}
-				title={user}
+				avatar={<Avatar src={user.avatar} />}
+				title={user.name}
 				description={`${greetingHandler()}`}
 			/>
 		</Card>
