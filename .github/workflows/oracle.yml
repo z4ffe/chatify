@@ -63,3 +63,5 @@ jobs:
             yarn build
             cd dist
             pm2 start main.js --watch
+            nginx - t
+            sudo systemctl restart nginx

@@ -45,6 +45,18 @@
       text-transform: uppercase;
       box-shadow: 2px 2px 20px rgba(77, 77, 157, 0.65);
     }
+
+    .burgerBtn {
+      display: none;
+      background: transparent;
+      border: none;
+      color: #fff;
+      margin-right: 10px;
+
+      .icon {
+        font-size: 22px;
+      }
+    }
   }
 }
 
@@ -75,12 +87,16 @@
 
         .headerTitle {
           font-size: 20px;
-          margin-top: 0;
+          margin-top: 8px;
         }
       }
 
       .statusContainer {
         display: none;
+      }
+
+      .burgerBtn {
+        display: block;
       }
     }
   }

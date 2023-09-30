@@ -20,3 +20,13 @@
     opacity: 0.5;
   }
 }
+
+@media only screen and (max-width: 550px) {
+  .usersList {
+    width: 300px;
+    gap: 5px;
+    height: 100%;
+    border: none;
+    overflow-y: scroll;
+  }
+}

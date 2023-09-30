@@ -1,6 +1,7 @@
 import {EmojiClickData} from 'emoji-picker-react'
 import {AnimatePresence} from 'framer-motion'
 import {KeyboardEvent, SyntheticEvent, useEffect, useState} from 'react'
+import {useMediaQuery} from 'react-responsive'
 import {ChatTable} from '../../components/ChatTable/ChatTable.tsx'
 import {UsersList} from '../../components/UsersList/UsersList.tsx'
 import {useAppSelector} from '../../lib/redux/typedHooks.ts'
@@ -14,6 +15,9 @@ export const Chat = () => {
 	const [wsInstance, setWsInstance] = useState<WsService | null>(null)
 	const [chatMessages, setChatMessages] = useState<MessageStruct[]>([])
 	const [input, setInput] = useState<string>('')
+	const isMobile = useMediaQuery({query: '(max-width: 550px)'})
+
+	console.log(isMobile)
 
 	useEffect(() => {
 		let wsService: WsService
@@ -59,7 +63,7 @@ export const Chat = () => {
 			<AnimatePresence>
 				<div className={styles.chatTableWrapper}>
 					<ChatTable chatMessages={chatMessages} />
-					<UsersList />
+					{isMobile ? null : <UsersList />}
 				</div>
 			</AnimatePresence>
 			<InputPanel input={input} handleInput={handleInput} handleEnterKey={handleEnterKey} handleEmoji={handleEmoji} handleSendMsg={handleSendMsg} />
