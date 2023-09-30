@@ -5,6 +5,9 @@ import viteCompression from 'vite-plugin-compression'
 // https://vitejs.dev/config/
 export default defineConfig({
 	plugins: [react(), viteCompression()],
+	build: {
+		minify: 'esbuild',
+	},
 	server: {
 		port: 3003,
 	},
