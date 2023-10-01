@@ -1,9 +1,1 @@
-export class User {
-	readonly name: string
-	readonly avatar: string
-
-	constructor(name: string, avatar: string) {
-		this.name = name
-		this.avatar = avatar
-	}
-}
+export class User {	readonly name: string	readonly avatar: string	readonly agent?: string	constructor(name: string, avatar: string, agent: string) {		this.name = name		this.avatar = avatar		this.agent = agent	}}

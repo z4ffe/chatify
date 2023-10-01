@@ -18,7 +18,7 @@ export const UsersList = () => {
 			{isMobile ? <ChatNotification text={'Users list'} /> : null}
 			{showList && <motion.div {...usersListAnimation} className={styles.usersList}>
 				{clientsList.map((client) => (
-					<UserBox key={client.name} user={client.name} src={client.avatar} />
+					<UserBox key={client.name} user={client.name} src={client.avatar} agent={client.agent} />
 				))}
 			</motion.div>}
 		</AnimatePresence>

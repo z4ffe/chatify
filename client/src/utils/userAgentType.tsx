@@ -1,8 +1,7 @@
 import {AndroidFilled, AppleFilled, QuestionCircleFilled, WindowsFilled} from '@ant-design/icons'
 import {ReactNode} from 'react'
 
-export const userAgentType = (): ReactNode => {
-	const userAgent = navigator.userAgent
+export const userAgentType = (userAgent: string): ReactNode => {
 	switch (true) {
 		case (/window/i.test(userAgent)):
 			return <WindowsFilled style={{paddingBottom: '3px'}} />

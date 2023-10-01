@@ -61,7 +61,7 @@ export class WsService {
 		for (const client of clients.values()) {
 			clientsList.push(client)
 		}
-		const payload = new Message('onlineUsers', {user: {name: '', avatar: ''}, onlineUsers: clients.size, clientsList: clientsList})
+		const payload = new Message('onlineUsers', {user: {name: '', avatar: '', agent: ''}, onlineUsers: clients.size, clientsList: clientsList})
 		clients.forEach((_, client) => {
 			client.send(JSON.stringify(payload))
 		})
