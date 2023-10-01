@@ -9,6 +9,9 @@ export default defineConfig(({mode}) => {
 		server: {
 			port: 3003,
 		},
+		build: {
+			minify: false,
+		},
 		esbuild: {
 			pure: mode === 'production' ? ['console.log'] : [],
 		},
