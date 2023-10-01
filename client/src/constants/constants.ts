@@ -5,4 +5,6 @@ export const CONSTANTS = {
 	NICKNAME_PLACEHOLDER: 'Enter your nickname',
 	GITHUB_LINK: 'https://github.com/z4ffe',
 	WELCOME_MESSAGE: (user: string) => `Welcome to Chatify, ${user}!`,
+	USER_EXIST_ERROR: 'User with this name already in chat',
+	LOGGED_OUT_MSG: 'You have successfully logged out',
 }

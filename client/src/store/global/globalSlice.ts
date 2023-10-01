@@ -10,7 +10,8 @@ interface IGlobalSlice {
 	status: EStatus
 	theme: 'light' | 'dark'
 	language: 'en' | 'ru'
-	error: '' | 'exist'
+	session: boolean
+	apiStatus: boolean
 }
 
 const initialState: IGlobalSlice = {
@@ -20,7 +21,8 @@ const initialState: IGlobalSlice = {
 	status: EStatus.connecting,
 	theme: 'light',
 	language: 'en',
-	error: '',
+	session: true,
+	apiStatus: true,
 }
 
 const globalSlice = createSlice({
@@ -37,14 +39,16 @@ const globalSlice = createSlice({
 			state.clientsList = action.payload
 		},
 		changeNetworkStatus: (state, action) => {
-			if (action.payload === WebSocket.CLOSED) {
-				state.user = initialState.user
-			} else {
-				state.status = readyStateHandler(action.payload)
-			}
+			state.status = readyStateHandler(action.payload)
 		},
 		setOnlineUsers: (state, action) => {
 			state.onlineUsers = action.payload
+		},
+		setSession: (state) => {
+			state.session = !state.session
+		},
+		setApiStatus: (state, action) => {
+			state.apiStatus = action.payload
 		},
 		resetState: () => initialState,
 	},

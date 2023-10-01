@@ -1,0 +1,13 @@
+.reloadBtn {
+  min-width: 120px;
+  width: fit-content;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 500;
+  background: #4560F7;
+  box-shadow: rgba(0, 0, 0, 0.15) 0 5px 15px 0;
+
+  &:hover {
+    background: #2b0fc2 !important;
+  }
+}

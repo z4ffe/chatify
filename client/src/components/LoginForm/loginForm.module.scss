@@ -1,0 +1,63 @@
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 20px 0;
+
+  .formTitle {
+    text-align: center;
+    color: $blackText;
+    font-size: 17px;
+    font-weight: 500;
+    text-shadow: 2px 2px 5px #bebebe;
+  }
+
+  .formWrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+
+    .form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .submitButton {
+      min-width: 120px;
+      width: fit-content;
+      color: #fff;
+      text-transform: uppercase;
+      font-weight: 500;
+      background: #4560F7;
+      box-shadow: rgba(0, 0, 0, 0.15) 0 5px 15px 0;
+
+      &:hover {
+        background: #2b0fc2;
+      }
+    }
+  }
+}
+
+.nameInput {
+  margin-bottom: auto;
+  width: 60%;
+  text-align: center;
+  position: relative;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 1px 2px 0;
+
+  &::placeholder {
+    text-align: center;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .loginForm {
+    align-items: center;
+    justify-content: center;
+    height: 400px;
+  }
+}

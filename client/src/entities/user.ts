@@ -3,7 +3,7 @@ export class User {
 	readonly avatar: string
 
 	constructor(name: string, avatar: string) {
-		this.name = name
+		this.name = name.trim()
 		this.avatar = avatar
 	}
 }

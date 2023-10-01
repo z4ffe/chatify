@@ -1,12 +1,11 @@
 import {CheckOutlined, CloseOutlined} from '@ant-design/icons'
 import {Switch} from 'antd'
-import {FC} from 'react'
+import {useAppDispatch} from '../../lib/redux/typedHooks.ts'
+import {globalActions} from '../../store/global/globalSlice.ts'
 
-interface Props {
-	handleSession: () => void
-}
+export const SessionSwitch = () => {
+	const dispatch = useAppDispatch()
 
-export const SessionSwitch: FC<Props> = ({handleSession}) => {
 	return (
 		<>
 			<p style={{fontSize: '13px'}}>Save session</p>
@@ -16,7 +15,7 @@ export const SessionSwitch: FC<Props> = ({handleSession}) => {
 				checkedChildren={<CheckOutlined />}
 				unCheckedChildren={<CloseOutlined />}
 				defaultChecked
-				onChange={handleSession}
+				onChange={() => dispatch(globalActions.setSession())}
 			/>
 		</>
 	)
