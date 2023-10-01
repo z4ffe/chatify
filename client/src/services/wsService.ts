@@ -8,13 +8,24 @@ import {LocalStorageHandler} from '../utils/localStorageHandler.ts'
 const WS_URL = import.meta.env.VITE_WS_URL
 
 export class WsService {
+	private heartbeatInterval: ReturnType<typeof setInterval> | undefined
+	private readonly heartbeatTime: number = 1000 * 10
+
 	constructor(private socket: WebSocket = new WebSocket(WS_URL)) {
+	}
+
+	private heartbeat() {
+		if (!this.socket) return
+		this.heartbeatInterval = setInterval(() => {
+			this.socket.send('alive')
+		}, this.heartbeatTime)
 	}
 
 	openConnection(handleMessage: (data: MessageStruct) => void, user: User) {
 		this.socket.onopen = () => {
 			const userData = new Message('userData', {user})
 			this.socket.send(JSON.stringify(userData))
+			this.heartbeat()
 			this.socket.onmessage = (message) => {
 				const parsedResponse: MessageStruct = JSON.parse(message.data)
 				switch (parsedResponse.event) {
@@ -37,6 +48,7 @@ export class WsService {
 			store.dispatch(globalActions.changeNetworkStatus(this.socket.OPEN))
 		}
 		this.socket.onclose = () => {
+			clearInterval(this.heartbeatInterval)
 			store.dispatch(globalActions.changeNetworkStatus(this.socket.CLOSED))
 		}
 	}
