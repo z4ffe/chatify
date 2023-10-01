@@ -17,8 +17,6 @@ export const Chat = () => {
 	const [input, setInput] = useState<string>('')
 	const isMobile = useMediaQuery({query: '(max-width: 550px)'})
 
-	console.log(isMobile)
-
 	useEffect(() => {
 		let wsService: WsService
 		if (user) {
