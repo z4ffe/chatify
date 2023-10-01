@@ -43,7 +43,7 @@ jobs:
       url: http://129.159.129.76
     runs-on: ubuntu-latest
     steps:
-      - name: pull and update frontend with backend then restart nginx server
+      - name: update instance
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.OC_HOST }}
@@ -53,20 +53,38 @@ jobs:
           script: |
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
-            cd /var/www/chatServer
+            cd /var/www/chatify
             git stash
             git stash clear
             git pull
-            cd client
+      - name: setup frontend
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.OC_HOST }}
+          username: ${{ secrets.OC_USER }}
+          key: ${{ secrets.OC_KEY }}
+          port: ${{ secrets.OC_PORT }}
+          script: |
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
+            cd /var/www/chatify/client
             rm -rf dist
             yarn install
             yarn build
-            cd ../server
+      - name: setup backend
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.OC_HOST }}
+          username: ${{ secrets.OC_USER }}
+          key: ${{ secrets.OC_KEY }}
+          port: ${{ secrets.OC_PORT }}
+          script: |
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
+            cd /var/www/chatify/server
             pm2 stop all 
             rm -rf dist
             yarn install
             yarn build
             cd dist
             pm2 start main.js --watch
-            nginx -t
-            sudo systemctl restart nginx
